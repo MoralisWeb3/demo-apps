@@ -1,0 +1,52 @@
+.container{
+    text-align: center;
+}
+#statistics{
+    margin-top: 40px;
+}
+#statistics div{
+    text-align: left;
+}
+#roll_input{
+    width: 100px;
+    display: inline-block;
+}
+#flip_button{
+    font-size: 24px;
+    width: 100px;
+}
+#login_button{
+    display: inline-block;
+}
+#error{
+    display: none;
+    background: #ff000078;
+    color: #fff;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    position: fixed;
+}
+.exit_icon{
+    color: #fff;
+    position:absolute;
+    top:0;
+    cursor: pointer;
+}
+#error_text{
+    margin-left: 23px;
+}
+#notification{
+    background: #206effc9;
+    color: #fff;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    position: relative;
+    display: none;
+}
+#notification_exit_icon{
+    position: absolute;
+    right: 15px;
+    top: 2px;
+    cursor: pointer;
+}
