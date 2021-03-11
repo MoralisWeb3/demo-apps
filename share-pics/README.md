@@ -18,8 +18,11 @@ Next intialize an instance of `Moralis`. Log into the Moralis site and create a 
 
 ```javascript
 <script>
-  Moralis.initialize("your app ID"); // i.e. O1aDE...QOV9 Moralis.serverURL =
-  "your server URL" // ie. https://pft...g8bn.moralis.io:2053/server
+  // i.e. O1aDE...QOV9
+  Moralis.initialize("your app ID");
+
+  // ie. https://pft...g8bn.moralis.io:2053/server
+  Moralis.serverURL = "your server URL";
 </script>
 ```
 
