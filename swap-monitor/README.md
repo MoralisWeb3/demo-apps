@@ -141,7 +141,7 @@ With the stats getting saved another Live Query can be created on the `DaiWethSw
 ### Why do the stats need a trigger? Why not just create another Live Query on `DaiWethSwaps`?
 
 Unfortunately creating a query with aggregation requires using the `MasterKey`, which for
-security reasons should only be used in Cloud Code. The trigger get around this by saving the
+security reasons should only be used in Cloud Code. The trigger gets around this by saving the
 results in a separate collection, which can then be queried directly.
 
 Note: be careful about using triggers that perform additional database operations as these will
