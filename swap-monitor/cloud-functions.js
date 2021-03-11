@@ -51,27 +51,14 @@ https://etherscan.io/address/0xa478c2975ab1ea89e8196811f51a7b7ade33eb11#events
 */
 
 // @@@ Paste this code into the Moralis Cloud Functions section on the server @@@
-
-let lastAverageUpdate = new Date("2021-01-01");
-function shouldUpdateAverage() {
-  return Date.now() - lastAverageUpdate >= 60000;
-}
-
 Moralis.Cloud.afterSave("DaiWethSwaps", async function (request) {
-  // if (request.event !== "create") {
-  //   return;
-  // }
-  // const swap = request.object;
-  // if (!shouldUpdateAverage(swap.attributes.block_timestamp)) {
-  //   return;
-  // }
-
   // sum the total volume in the last hour
   const query = new Moralis.Query("DaiWethSwaps");
   const end = new Date();
   const start = new Date(end.valueOf() - 3600000); // 1 hour ago
   const pipeline = [
     {match: {block_timestamp: {\$gt: start}}},
+    // convert text values into numbers so they can be summed
     {addFields:{
       nAmount0In: {\$toDouble: "\$amount0In"},
       nAmount1In: {\$toDouble: "\$amount1In"},
@@ -87,6 +74,7 @@ Moralis.Cloud.afterSave("DaiWethSwaps", async function (request) {
         totalAmount1Out: {\$sum: "\$nAmount1Out"},
       }
     },
+    // convert wei into ETH
     {project: {
       dTotalAmount0In: {\$divide: ["\$totalAmount0In", 1e18]},
       dTotalAmount1In: {\$divide: ["\$totalAmount1In", 1e18]},
@@ -97,7 +85,7 @@ Moralis.Cloud.afterSave("DaiWethSwaps", async function (request) {
   const results = await query.aggregate(pipeline, {useMasterKey: true});
   const data = results[0];
 
-  // save results
+  // save results to separate collection
   const DaiWethSwapVolume60 = Moralis.Object.extend("DaiWethSwapVolume60");
   const vol = new DaiWethSwapVolume60();
   vol.set("date_time", end);
