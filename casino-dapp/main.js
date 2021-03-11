@@ -1,5 +1,6 @@
-Moralis.initialize("AVsqyObVVCJ2UKwpMBr4v0AdK5XyFy1o2GVTnr4V"); // APP ID
-Moralis.serverURL = "https://hd3du5qyqtpc.moralis.io:2053/parse";
+Moralis.initialize("INSERT_APP_ID"); // Application id from moralis.io
+Moralis.serverURL = "INSERT_SERVER_URL"; //Server url from moralis.io
+const CONTRACT_ADDRESS = "INSERT_CONTRACT_ADDRESS";
 
 function displayErrorMessage(message){
     document.getElementById("error_text").innerHTML = message;
@@ -21,7 +22,7 @@ function processBiggestLosers(data){
 }
 function processBiggestBets(data){
     data.forEach( (row => {
-        addRowToTable("biggest_bets", [row.attributes.user, row.attributes.bet, row.attributes.win ? "Win" : "Loss"]);
+        addRowToTable("biggest_bets", [row.user, row.bet, row.win ? "Win" : "Loss"]);
     }))
 }
 
@@ -42,7 +43,7 @@ async function renderApp(){
     document.getElementById("register").style.display = "none";
     document.getElementById("app").style.display = "block";
     window.web3 = await Moralis.Web3.enable();
-    window.contract = new web3.eth.Contract(contractAbi, "0x607A4057bFe645eDd058b5a7014fe77A0F44103d");
+    window.contract = new web3.eth.Contract(contractAbi, "CONTRACT_ADDRESS");
     updateStats();
 }
 
@@ -124,8 +125,6 @@ async function flip(e){
     let side = document.getElementById("heads").checked ? 0 : 1;
     let amount = document.getElementById("roll_input").value;
     contract.methods.flip(side).send({from: ethereum.selectedAddress, value: amount}).on('receipt', function(receipt){
-        console.log("tx sent");
-        console.log(receipt);
         if(receipt.events.bet.returnValues.win){
             displayNotification(true, receipt.events.bet.returnValues.bet);
         }
@@ -143,7 +142,6 @@ function addRowToTable(tableId, data){
         tableRow.appendChild(newRow);
     });
     document.getElementById(tableId).appendChild(tableRow)
-    // $("#" + "tableId").append(tableRow);
 }
 
 
@@ -152,7 +150,6 @@ document.getElementById("email_submit").onclick = saveEmail;
 document.getElementById("logout_button").onclick = logout;
 document.querySelector("#error .exit_icon").onclick = closeErrorMessage;
 document.getElementById("notification_exit_icon").onclick = closeNotification;
-
 document.getElementById("flip_button").onclick = flip;
 
 init();

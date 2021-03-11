@@ -1,11 +1,11 @@
 Moralis.Cloud.define("biggestLosers", async function(request) {
-  const query = new Parse.Query("flipsv5");
+  const query = new Parse.Query("flips");
   query.equalTo("win", false);
   const pipeline = [
     {
       group: {
         objectId: "\$user", 
-        totalLost: { \$sum: "\$bet"},
+        totalLost: { \$sum: { \$toInt: "\$bet" }},
       },
     },
     { sort: {totalLost: -1}},
@@ -19,13 +19,13 @@ Moralis.Cloud.define("biggestLosers", async function(request) {
 });
 
 Moralis.Cloud.define("biggestWinners", async function(request) {
-  const query = new Parse.Query("flipsv5");
+  const query = new Parse.Query("flips");
   query.equalTo("win", true);
   const pipeline = [
     {
       group: {
         objectId: "\$user", 
-        totalWon: { \$sum: "\$bet"},
+        totalWon: { \$sum: { \$toInt: "\$bet" }},
       },
     },
     { sort: {totalWon: -1}},
@@ -39,10 +39,20 @@ Moralis.Cloud.define("biggestWinners", async function(request) {
 });
 
 Moralis.Cloud.define("biggestBets", async function(request) {
-  const query = new Parse.Query("flipsv5");
+  const query = new Parse.Query("flips");
   query.select("user", "bet", "win");
-  query.descending("bet");
-  query.limit(10);
-const results = await query.find({ useMasterKey: true });
-return results;
+  const pipeline = [
+    {
+      project: {
+        user: 1,
+        win: 1,
+        bet: { \$toInt: "\$bet" },
+      },
+    },
+    { sort: {bet: -1}},
+    { limit: 10 }
+  ];
+  const pipelineresult = await query.aggregate(pipeline, { useMasterKey: true });
+
+  return pipelineresult;
 });
