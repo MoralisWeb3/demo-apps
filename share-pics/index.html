@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://npmcdn.com/moralis@0.0.5/dist/moralis.js"></script>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <span class="title">Moralis Pics</span>
+      <div id="app-toolbar">
+        <form action="/">
+          <input type="text" id="input-search" name="address" placeholder="search address">
+          <button type="submit" id="btn-search">Search</button>
+        </form>
+      </div>
+      <div id="app-header-btns"></div>
+    </header>
+
+    <!-- content containers -->
+    <section id="msg"></section>
+    <section id="user-profile"></section>
+    <section id="add-img-container"></section>
+    <section id="user-pics"></section>
+    <section id="user-list"></section>
+
+    <!-- scripts -->
+    <script src="index.js"></script>
+  </body>
+</html>
