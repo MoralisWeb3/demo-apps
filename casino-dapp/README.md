@@ -137,4 +137,4 @@ Now you should refresh the application page and then it's ready for testing. You
 
 Then the game will open up and you can bet any amount of Wei and select Heads or Tails. You will get a notification with the result of the bet. 
 
-After your first flip, you can upon up your moralis server dashboard and check the flips table for your latest flip. 
+After your first flip, you can open up your moralis server dashboard and check the flips table for your latest flip. 
