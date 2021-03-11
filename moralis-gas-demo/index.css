@@ -1,0 +1,37 @@
+body {
+  font-family: Open Sans,sans-serif;
+  background-color: rgb(51, 51, 51);
+  color: white;
+  font-size: 18px;
+}
+
+button {
+  padding: 0.25rem;
+  border-radius: 10px;
+  background-color: rgb(171, 216, 4);
+}
+
+.gas-stat-card {
+  border-radius: 10px;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  background-color: #828282;
+  border: 1px black solid;
+  display: flex;
+  flex-direction: column;
+  max-width: 15rem;
+}
+
+.gas-card-heading {
+  font-weight: bolder;
+}
+
+.gas-stat {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mb {
+  margin-bottom: 0.5rem;
+}
