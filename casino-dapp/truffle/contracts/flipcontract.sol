@@ -35,16 +35,15 @@ contract FlipContract is Ownable {
         return address(this).balance;
     }
     // Function to get the Balance of the Contract
-    function getBalance() public view returns (address, uint, uint) {
-        return (address(this), address(this).balance, ContractBalance);
+    function getBalance() public view returns (uint) {
+        return ContractBalance;
     }
     // Fund the Contract
-    function fundContract() public payable onlyOwner returns(uint){
+    function fundContract() public payable onlyOwner {
         require(msg.value != 0);
-        //ContractBalance += msg.value;
+        ContractBalance = ContractBalance.add(msg.value);
         emit funded(msg.sender, msg.value);
-        //assert(ContractBalance == address(this).balance);
-        return msg.value;
+        assert(ContractBalance == address(this).balance);
     }
 
 }
