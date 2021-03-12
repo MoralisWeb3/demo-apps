@@ -6,9 +6,11 @@ body {
 }
 
 button {
-  padding: 0.25rem;
+  padding: 0.5rem;
+  border: 0px;
   border-radius: 10px;
   background-color: rgb(171, 216, 4);
+  font-size: 16px;
 }
 
 .gas-stat-card {

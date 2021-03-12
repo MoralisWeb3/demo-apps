@@ -1,5 +1,5 @@
-Moralis.initialize("your app ID");
-Moralis.serverURL = "your server url";
+Moralis.initialize("TCDv7lnGwNN7RIhlj30wA69dnaamxtsmqcTnm3ch");
+Moralis.serverURL = "https://9c8nrl6lfq8u.moralis.io:2053/server";
 
 const elemAppHeader = document.getElementById("app-header");
 const elemGroupGasStats = document.getElementById("group-gas-stats");
@@ -88,7 +88,7 @@ async function displayGroupGasStats() {
   let results = await Moralis.Cloud.run("topTenAvgGas", {});
   console.log("displayGroupGasStats:: results:", results);
 
-  elemGroupGasStats.innerHTML = `<h3>Top 10 User Average Gas Fees</h3>`;
+  elemGroupGasStats.innerHTML = `<h3><span aria-label="gas">⛽</span>Top 10 User Average Gas Fees</h3>`;
   results.forEach(function (result, index) {
     renderStatCard(elemGroupGasStats, {
       avgGas: toGwei(result.avgGas),

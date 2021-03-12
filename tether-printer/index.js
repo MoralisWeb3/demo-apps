@@ -1,5 +1,5 @@
-Moralis.initialize("YOUR APP ID");
-Moralis.serverURL = "YOUR SERVER URL";
+Moralis.initialize("pEYOtXN94FGHaJ1PzpvBR08K1h5depUBM4n3i2EV"); // APP ID
+Moralis.serverURL = "https://jvl1x2z3dq78.moralis.io:2053/server";
 
 const elemAppHeader = document.getElementById("app-header-btns");
 const printingContainer = document.getElementById("printings");
