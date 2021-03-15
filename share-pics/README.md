@@ -5,12 +5,12 @@ https://moralis-pics-demo.netlify.app/
 
 ## Setup
 
-To use the Moralis in the browser add the CDN links in the `<head>` tag. The latest version at time of writing is `0.0.6`.
+To use the Moralis in the browser add the CDN links in the `<head>` tag.
 
 ```javascript
 <head>
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-  <script src="https://npmcdn.com/moralis@0.0.6/dist/moralis.js"></script>
+  <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 </head>
 ```
 

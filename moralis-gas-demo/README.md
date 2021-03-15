@@ -6,12 +6,12 @@ https://moralis-gas-demo.netlify.app/
 
 ## Using Moralis in the browser
 
-The quickest way to get up and running is by linking the CDN in the `<head>` tag of the html file. The current version is `0.0.6` at the time of writing.
+The quickest way to get up and running is by linking the CDN in the `<head>` tag of the html file.
 
 ```html
 <head>
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-  <script src="https://npmcdn.com/moralis@0.0.6/dist/moralis.js"></script>
+  <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
 </head>
 ```
 
