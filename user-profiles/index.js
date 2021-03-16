@@ -29,12 +29,11 @@ async function loginWithEmail(isSignUp) {
     return;
   }
 
-  let user;
   try {
     if (isSignUp) {
-      user = await Moralis.User.signUp(email, pass);
+      await Moralis.User.signUp(email, pass);
     } else {
-      user = await Moralis.User.logIn(email, pass);
+      await Moralis.User.logIn(email, pass);
     }
 
     render();
@@ -42,6 +41,44 @@ async function loginWithEmail(isSignUp) {
     console.log(error);
     alert("invalid username or password");
   }
+}
+
+function listenForAccountChange() {
+  Moralis.Web3.onAccountsChanged(async function (accounts) {
+    console.log("account changed:", accounts);
+    const user = Moralis.User.current();
+    if (!user) {
+      // not logged in
+      return;
+    }
+
+    try {
+      const address = accounts[0];
+      if (addressAlreadyLinked(user, address)) {
+        console.log(`address ${getAddressTxt(address)} already linked`);
+        return;
+      }
+
+      const confirmed = confirm("Link this address to your account?");
+      if (confirmed) {
+        await Moralis.Web3.link(address);
+        alert("Address added!");
+        render();
+      }
+    } catch (error) {
+      if (error.message.includes("already used")) {
+        alert("That address is already linked to another profile!");
+      } else {
+        console.error(error);
+        alert("Error while linking. See the console.");
+      }
+    }
+  });
+}
+
+function addressAlreadyLinked(user, address) {
+  console.log(user);
+  return user && address && user.attributes.accounts.includes(address);
 }
 
 function renderHeader() {
@@ -81,11 +118,11 @@ function buildLoginComponent(isSignUp = false) {
       } With MetaMask</button>
       <hr/>
       <form id="frm-login">
-        <div>
+        <div class="form-group">
           <label for="email">Email/Username</label>
           <input type="text" id="email" name="email"/>
         </div>
-        <div>
+        <div class="form-group">
           <label for="pass">Password</label>
           <input type="password" id="pass" name="pass"/>
         </div>
@@ -103,12 +140,6 @@ function getAddressTxt(address) {
 }
 
 function buildProfileComponent(user) {
-  // show default avatar if not defined
-  const imgUrl = user.attributes.avatar
-    ? user.attributes.avatar.url()
-    : "default-user.png";
-  console.log("buildProfileComponent:: imgUrl:", imgUrl);
-
   // construct list of addresses
   let addressList = "<p>None</p>";
   if (user.attributes.accounts) {
@@ -122,30 +153,29 @@ function buildProfileComponent(user) {
   return `
     <div class="container">
       <form action="" id="frm-profile">
-        <div>
-          <span>Avatar</span>
-          <img
-            class="user-img"
-            src="${imgUrl}"
-            alt="Homer"
-          />
-          <button id="btn-change-avatar">Change</button>
-        </div>
-        <div>
+        <div class="form-group">
           <label for="name">User Name</label>
           <input type="text" id="name" value="${
             user.attributes.username || ""
           }"/>
         </div>
-        <div>
+        <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" value="${
             user.attributes.email || ""
           }"/>
         </div>
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea
+            id="bio"
+            name="bio"
+            rows="4"
+            cols="50"
+            maxlength="200" >${user.attributes.bio || ""}</textarea>
+        </div>
         <div id="profile-set-pass">
-          <p>Setting a password allows login via email</p>
-          <button id="btn-profile-set-pass">Set Password</button>
+          ${buildSetPassComponent()}
         </div>
         <div>
           <h3>Addresses</h3>
@@ -153,7 +183,7 @@ function buildProfileComponent(user) {
             ${addressList}
           </ul>
         </div>
-        <button id="btn-profile-save">Save</button>
+        <button id="btn-profile-save">Save Profile</button>
       </form>
     </div>
   `;
@@ -169,37 +199,39 @@ function renderLogin(isSignUp) {
 
 function renderProfile(user) {
   contentContainer.innerHTML = buildProfileComponent(user);
-  document.getElementById("btn-change-avatar").onclick = onChangeAvatar;
   document.getElementById("btn-profile-set-pass").onclick = onSetPassword;
   document.getElementById("btn-profile-save").onclick = onSaveProfile;
 }
 
-function onChangeAvatar(event) {
-  event.preventDefault();
-  console.log("change avatar");
-}
-
 function onSetPassword(event) {
   event.preventDefault();
-  console.log("set password");
 
   const containerSetPass = document.getElementById("profile-set-pass");
-  containerSetPass.innerHTML = buildSetPassComponent();
+  containerSetPass.innerHTML = buildSetPassComponent(true);
   document.getElementById("btn-save-pass").onclick = onSaveNewPassword;
+  document.getElementById("btn-cancel-pass").onclick = onCancelNewPassword;
 }
 
-function buildSetPassComponent() {
+function buildSetPassComponent(showForm = false) {
+  if (!showForm) {
+    return `
+      <p>Setting a password allows login via email</p>
+      <button id="btn-profile-set-pass">Set Password</button>
+    `;
+  }
+
   return `
     <div class="set-password">
-      <div>
+      <div class="form-group">
         <label for="pass">New Password</label>
         <input type="password" id="pass" autocomplete="off" />
       </div>
-      <div>
+      <div class="form-group">
         <label for="confirm-pass">Confirm</label>
         <input type="password" id="confirm-pass" autocomplete="off" />
       </div>
       <button id="btn-save-pass">Save Password</button>
+      <button id="btn-cancel-pass">Cancel</button>
     </div>
   `;
 }
@@ -227,6 +259,12 @@ async function onSaveNewPassword(event) {
   }
 }
 
+function onCancelNewPassword() {
+  const containerSetPass = document.getElementById("profile-set-pass");
+  containerSetPass.innerHTML = buildSetPassComponent();
+  document.getElementById("btn-profile-set-pass").onclick = onSetPassword;
+}
+
 async function onSaveProfile(event) {
   event.preventDefault();
   const user = Moralis.User.current();
@@ -235,11 +273,13 @@ async function onSaveProfile(event) {
     // get values from the form
     const username = document.getElementById("name").value;
     const email = document.getElementById("email").value;
-    // console.log("username:", username, "email:", email);
+    const bio = document.getElementById("bio").value;
+    console.log("username:", username, "email:", email, "bio:", bio);
 
     // update user object
-    user.setEmail(email);
-    user.setUsername(username);
+    user.setEmail(email); // built in
+    user.setUsername(username); // built in
+    user.set("bio", bio); // custom attribute
 
     await user.save();
     alert("saved successfully!");
@@ -259,5 +299,10 @@ function render() {
   }
 }
 
-// render on page load
-render();
+function init() {
+  listenForAccountChange();
+
+  // render on page load
+  render();
+}
+init();

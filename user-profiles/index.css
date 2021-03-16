@@ -13,6 +13,12 @@ button {
   cursor: pointer;
 }
 
+input, textarea {
+  border: 0px;
+  border-radius: 5px;
+  padding: 0.25rem;
+}
+
 .app-header {
   display:flex;
   justify-content: space-between;
@@ -41,6 +47,16 @@ button {
 .container {
   display: flex;
   padding: 1rem;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.form-group label {
+  margin-right: 0.25rem;
 }
 
 .user-img {
