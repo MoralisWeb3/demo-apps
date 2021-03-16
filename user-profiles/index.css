@@ -50,3 +50,7 @@ button {
 .login {
   flex-direction: column;
 }
+
+.set-password {
+  margin-top: 1rem;
+}
