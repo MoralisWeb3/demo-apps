@@ -78,7 +78,32 @@ function listenForAccountChange() {
 
 function addressAlreadyLinked(user, address) {
   console.log(user);
-  return user && address && user.attributes.accounts.includes(address);
+  return (
+    user &&
+    address &&
+    user.attributes.accounts &&
+    user.attributes.accounts.includes(address)
+  );
+}
+
+async function onUnlinkAddress(event) {
+  event.preventDefault();
+  try {
+    const address = event.target.dataset.addr;
+    console.log("onUnlinkAddress:: addr:", address);
+
+    const confirmed = confirm("Are you sure you want to remove this address?");
+    if (!confirmed) {
+      return;
+    }
+
+    await Moralis.Web3.unlink(address);
+    alert("Address removed from profile!");
+    render();
+  } catch (error) {
+    console.error(error);
+    alert("Error unlinking address. See console.");
+  }
 }
 
 function renderHeader() {
@@ -142,10 +167,13 @@ function getAddressTxt(address) {
 function buildProfileComponent(user) {
   // construct list of addresses
   let addressList = "<p>None</p>";
-  if (user.attributes.accounts) {
+  if (user.attributes.accounts && user.attributes.accounts.length) {
     addressList = user.attributes.accounts
       .map(function (account) {
-        return `<li>${getAddressTxt(account)}</li>`;
+        return `<li>
+          ${getAddressTxt(account)}
+          <button class="btn-remove" data-addr="${account}">X</button>
+        </li>`;
       })
       .join("");
   }
@@ -201,6 +229,9 @@ function renderProfile(user) {
   contentContainer.innerHTML = buildProfileComponent(user);
   document.getElementById("btn-profile-set-pass").onclick = onSetPassword;
   document.getElementById("btn-profile-save").onclick = onSaveProfile;
+  document.querySelectorAll(".btn-remove").forEach(function (button) {
+    button.onclick = onUnlinkAddress;
+  });
 }
 
 function onSetPassword(event) {
