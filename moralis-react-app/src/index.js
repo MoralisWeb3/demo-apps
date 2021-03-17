@@ -5,8 +5,10 @@ import moralis from "moralis";
 moralis.initialize(process.env.REACT_APP_MORALIS_APPLICATION_ID);
 moralis.serverURL = process.env.REACT_APP_MORALIS_SERVER_URL;
 
+const initialUser = moralis.User.current();
+
 const App = () => {
-  const [user, setUser] = useState(moralis.User.current());
+  const [user, setUser] = useState(initialUser);
   const onLogin = async () => {
     const user = await moralis.authenticate();
     setUser(user);
