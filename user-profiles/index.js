@@ -53,7 +53,7 @@ function listenForAccountChange() {
   Moralis.Web3.onAccountsChanged(async function (accounts) {
     console.log("account changed:", accounts);
     const user = Moralis.User.current();
-    if (!user) {
+    if (!user || !accounts.length) {
       // not logged in
       return;
     }
@@ -92,7 +92,6 @@ function addressAlreadyLinked(user, address) {
 }
 
 async function onUnlinkAddress(event) {
-  console.log("onUnlinkAddress");
   event.preventDefault();
   try {
     const address = event.target.dataset.addr;
@@ -135,7 +134,7 @@ function buildLoginComponent(isSignUp = false) {
       <hr/>
       <div id="frm-login">
         <div class="form-group">
-          <label for="email">Username/Email</label>
+          <label for="email">User/Email</label>
           <input type="text" id="email" name="email"/>
         </div>
         <div class="form-group">
@@ -245,13 +244,10 @@ function renderProfile(user) {
 }
 
 function onSetPassword(event) {
-  event.preventDefault();
-
   const containerSetPass = document.getElementById("profile-set-pass");
   containerSetPass.innerHTML = buildSetPassComponent(true);
   document.getElementById("btn-save-pass").onclick = onSaveNewPassword;
   document.getElementById("btn-cancel-pass").onclick = onCancelNewPassword;
-  render();
 }
 
 function buildSetPassComponent(showForm = false) {
@@ -295,6 +291,8 @@ async function onSaveNewPassword(event) {
     user.setPassword(newPass);
     await user.save();
     alert("Password updated successfully!");
+
+    render();
   } catch (error) {
     console.error(error);
     alert("Error while saving new password. See the console");
@@ -312,8 +310,8 @@ async function onAddAddress() {
     // enabling web3 will cause an account changed event
     // which is already subscribed to link on change so
     // just connecting Metamask will do what we want
-    const web3 = await Moralis.Web3.enable();
-    const accounts = await web3.eth.getAccounts();
+    // (as long as the account is not currently connected)
+    await Moralis.Web3.enable();
   } catch (error) {
     console.error(error);
     alert("Error while linking new address. See console");

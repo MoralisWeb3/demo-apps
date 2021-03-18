@@ -17,10 +17,15 @@ button {
   background-color: #b1b1e3;
 }
 
+label {
+  width: 35%;
+}
+
 input, textarea {
   border: 0px;
   border-radius: 5px;
   padding: 0.25rem;
+  width: 65%;
 }
 
 label {
