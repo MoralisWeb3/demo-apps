@@ -1,5 +1,5 @@
-Moralis.initialize("cQQ7wpg7Kb5cBL8jtZ3OanBJwkdJnNVTXXq2WefN"); // APP ID
-Moralis.serverURL = "https://ub3hvv5ovsck.moralis.io:2053/server";
+Moralis.initialize("FWtPLO0en5imI3ChWwEsGobOrqJTkcUk4KEpP8Ab"); // APP ID
+Moralis.serverURL = "https://yi63fzkqbi8t.moralis.io:2053/server";
 
 const appHeaderContainer = document.getElementById("app-header-btns");
 const contentContainer = document.getElementById("content");
@@ -31,7 +31,13 @@ async function loginWithEmail(isSignUp) {
 
   try {
     if (isSignUp) {
-      await Moralis.User.signUp(email, pass);
+      // when using email for username
+      // assign it to the username property
+      const user = new Moralis.User();
+      user.set("username", email);
+      user.set("password", pass);
+
+      await user.signUp();
     } else {
       await Moralis.User.logIn(email, pass);
     }
@@ -77,7 +83,6 @@ function listenForAccountChange() {
 }
 
 function addressAlreadyLinked(user, address) {
-  console.log(user);
   return (
     user &&
     address &&
@@ -87,6 +92,7 @@ function addressAlreadyLinked(user, address) {
 }
 
 async function onUnlinkAddress(event) {
+  console.log("onUnlinkAddress");
   event.preventDefault();
   try {
     const address = event.target.dataset.addr;
@@ -108,53 +114,52 @@ async function onUnlinkAddress(event) {
 
 function renderHeader() {
   const user = Moralis.User.current();
-  if (user) {
-    // show the logout, refresh buttons if user logged in
-    appHeaderContainer.innerHTML = `
+  if (!user) {
+    return;
+  }
+  // show the logout, refresh buttons if user logged in
+  appHeaderContainer.innerHTML = `
       <button id="btn-logout">Logout</button>
     `;
-    document.getElementById("btn-logout").onclick = logOut;
-  } else {
-    // show the login button if user not logged in
-    appHeaderContainer.innerHTML = `
-      <button id="btn-login">Login</button>
-      <button id="btn-signup">Sign Up</button>
-    `;
-    document.getElementById("btn-login").onclick = function () {
-      renderLogin();
-    };
-    document.getElementById("btn-signup").onclick = function () {
-      renderLogin(true);
-    };
-  }
-}
-
-function renderWelcome() {
-  contentContainer.innerHTML = `
-    <h2>Sign in with MetaMask or email!</h2>
-  `;
+  document.getElementById("btn-logout").onclick = logOut;
 }
 
 function buildLoginComponent(isSignUp = false) {
+  const btnSignUp = isSignUp
+    ? ""
+    : `<button type="button" id="btn-login-email-signup">Sign Up With Email</button>`;
+
   return `
     <div class="container login">
-      <button id="btn-login-metamask">${
-        isSignUp ? "Sign Up" : "Login"
-      } With MetaMask</button>
+      <button id="btn-login-metamask">Login/Signup With MetaMask</button>
       <hr/>
-      <form id="frm-login">
+      <div id="frm-login">
         <div class="form-group">
-          <label for="email">Email/Username</label>
+          <label for="email">Username/Email</label>
           <input type="text" id="email" name="email"/>
         </div>
         <div class="form-group">
           <label for="pass">Password</label>
           <input type="password" id="pass" name="pass"/>
         </div>
-        <button id="btn-login-email" type="button">Submit</button>
-      </form>
+        <button type="button" id="btn-login-email" type="button">Submit</button>
+        ${btnSignUp}
+      </div>
     </div>
   `;
+}
+
+function renderLogin(isSignUp) {
+  contentContainer.innerHTML = buildLoginComponent(isSignUp);
+  document.getElementById("btn-login-metamask").onclick = loginWithMetaMask;
+  document.getElementById("btn-login-email").onclick = function () {
+    loginWithEmail(isSignUp);
+  };
+  if (!isSignUp) {
+    document.getElementById("btn-login-email-signup").onclick = function () {
+      loginWithEmail(true);
+    };
+  }
 }
 
 function getAddressTxt(address) {
@@ -165,32 +170,13 @@ function getAddressTxt(address) {
 }
 
 function buildProfileComponent(user) {
-  // construct list of addresses
-  let addressList = "<p>None</p>";
-  if (user.attributes.accounts && user.attributes.accounts.length) {
-    addressList = user.attributes.accounts
-      .map(function (account) {
-        return `<li>
-          ${getAddressTxt(account)}
-          <button class="btn-remove" data-addr="${account}">X</button>
-        </li>`;
-      })
-      .join("");
-  }
-
   return `
     <div class="container">
-      <form action="" id="frm-profile">
+      <div>
         <div class="form-group">
-          <label for="name">User Name</label>
+          <label for="name">Username</label>
           <input type="text" id="name" value="${
             user.attributes.username || ""
-          }"/>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" value="${
-            user.attributes.email || ""
           }"/>
         </div>
         <div class="form-group">
@@ -205,24 +191,43 @@ function buildProfileComponent(user) {
         <div id="profile-set-pass">
           ${buildSetPassComponent()}
         </div>
-        <div>
-          <h3>Addresses</h3>
-          <ul>
-            ${addressList}
-          </ul>
-        </div>
-        <button id="btn-profile-save">Save Profile</button>
-      </form>
+        ${buildAddrListComponent(user)}
+        <button class="mt" type="button" id="btn-profile-save">Save Profile</button>
+      </div>
     </div>
   `;
 }
 
-function renderLogin(isSignUp) {
-  contentContainer.innerHTML = buildLoginComponent(isSignUp);
-  document.getElementById("btn-login-metamask").onclick = loginWithMetaMask;
-  document.getElementById("btn-login-email").onclick = function () {
-    loginWithEmail(isSignUp);
-  };
+function buildAddrListComponent(user) {
+  // add each address to the list
+  let addressItems = "";
+  if (user.attributes.accounts && user.attributes.accounts.length) {
+    addressItems = user.attributes.accounts
+      .map(function (account) {
+        return `<li>
+          <button class="btn-addr btn-remove" type="button" data-addr="${account}">X</button>
+          ${getAddressTxt(account)}
+        </li>`;
+      })
+      .join("");
+  } else {
+    // no linked addreses, add button to link new address
+    addressItems = `
+    <li>
+      <button class="btn-addr" type="button" id="btn-add-addr">+</button>
+      Link
+    </li>
+    `;
+  }
+
+  return `
+    <div>
+      <h3>Linked Addresses</h3>
+      <ul>
+        ${addressItems}
+      </ul>
+    </div>
+  `;
 }
 
 function renderProfile(user) {
@@ -232,6 +237,11 @@ function renderProfile(user) {
   document.querySelectorAll(".btn-remove").forEach(function (button) {
     button.onclick = onUnlinkAddress;
   });
+
+  const btnAddAddress = document.getElementById("btn-add-addr");
+  if (btnAddAddress) {
+    btnAddAddress.onclick = onAddAddress;
+  }
 }
 
 function onSetPassword(event) {
@@ -241,13 +251,14 @@ function onSetPassword(event) {
   containerSetPass.innerHTML = buildSetPassComponent(true);
   document.getElementById("btn-save-pass").onclick = onSaveNewPassword;
   document.getElementById("btn-cancel-pass").onclick = onCancelNewPassword;
+  render();
 }
 
 function buildSetPassComponent(showForm = false) {
   if (!showForm) {
     return `
-      <p>Setting a password allows login via email</p>
-      <button id="btn-profile-set-pass">Set Password</button>
+      <p>Setting a password allows login via username</p>
+      <button type="button" id="btn-profile-set-pass">Set Password</button>
     `;
   }
 
@@ -261,8 +272,8 @@ function buildSetPassComponent(showForm = false) {
         <label for="confirm-pass">Confirm</label>
         <input type="password" id="confirm-pass" autocomplete="off" />
       </div>
-      <button id="btn-save-pass">Save Password</button>
-      <button id="btn-cancel-pass">Cancel</button>
+      <button type="button" id="btn-save-pass">Save Password</button>
+      <button type="button" id="btn-cancel-pass">Cancel</button>
     </div>
   `;
 }
@@ -296,6 +307,19 @@ function onCancelNewPassword() {
   document.getElementById("btn-profile-set-pass").onclick = onSetPassword;
 }
 
+async function onAddAddress() {
+  try {
+    // enabling web3 will cause an account changed event
+    // which is already subscribed to link on change so
+    // just connecting Metamask will do what we want
+    const web3 = await Moralis.Web3.enable();
+    const accounts = await web3.eth.getAccounts();
+  } catch (error) {
+    console.error(error);
+    alert("Error while linking new address. See console");
+  }
+}
+
 async function onSaveProfile(event) {
   event.preventDefault();
   const user = Moralis.User.current();
@@ -303,12 +327,10 @@ async function onSaveProfile(event) {
   try {
     // get values from the form
     const username = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
     const bio = document.getElementById("bio").value;
-    console.log("username:", username, "email:", email, "bio:", bio);
+    console.log("username:", username, "bio:", bio);
 
     // update user object
-    user.setEmail(email); // built in
     user.setUsername(username); // built in
     user.set("bio", bio); // custom attribute
 
@@ -326,7 +348,7 @@ function render() {
   if (user) {
     renderProfile(user);
   } else {
-    renderWelcome();
+    renderLogin();
   }
 }
 
