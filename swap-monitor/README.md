@@ -111,28 +111,13 @@ perform any needed changes (like updating the content).
 
 ## Triggers
 
-Triggers are events fired by the Moralis server that can be handled by Cloud Code to perform actions whenever they occurr. The demo app takes advantage of the `afterSaved` trigger to record some stats every time a new swap occurrs. Triggers are defined in the Cloud Code section on the
-Moralis Server instance.
+Triggers are events fired by the Moralis server that can be handled by Cloud Code to perform actions whenever they occurr. The demo app takes advantage of the `afterSave` trigger to record some stats every time a new swap occurrs. Triggers are defined in the Cloud Code section on the
+Moralis Server instance. Copy the following function from the `cloud-functions.js` file into your Moralis Cloud Functions by clicking on the "Cloud Functions" button.
 
 ```javascript
-// put this code in the Cloud Code section of your Moralis Server instance
+// copy the corresponding function from the `cloud-functions.js` file onto your server
 Moralis.Cloud.afterSave("DaiWethSwaps", async function (request) {
-  // sum the total volume in the last hour
-  const query = new Moralis.Query("DaiWethSwaps");
-  const pipeline = [ /* code omitted */ ];
-  const results = await query.aggregate(pipeline, {useMasterKey: true});
-  const data = results[0];
-
-  // save results to separate collection
-  const DaiWethSwapVolume60 = Moralis.Object.extend("DaiWethSwapVolume60");
-  const vol = new DaiWethSwapVolume60();
-  vol.set("date_time", end);
-  vol.set("amount0In", data.dTotalAmount0In);
-  vol.set("amount1In", data.dTotalAmount1In);
-  vol.set("amount0Out", data.dTotalAmount0Out);
-  vol.set("amount1Out", data.dTotalAmount1Out);
-  
-  return vol.save();
+  // etc
 });
 ```
 
