@@ -121,6 +121,8 @@ Moralis.Cloud.afterSave("DaiWethSwaps", async function (request) {
 });
 ```
 
+See the <a href="https://docs.moralis.io/triggers#aftersave" target="_blank">afterSave Trigger</a> docs for more details.
+
 With the stats getting saved another Live Query can be created on the `DaiWethSwapVolume60` and subscribed to to get real-time updates on the stats.
 
 ### Why do the stats need a trigger? Why not just create another Live Query on `DaiWethSwaps`?
