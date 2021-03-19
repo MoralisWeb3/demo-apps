@@ -43,7 +43,7 @@ async function renderApp(){
     document.getElementById("register").style.display = "none";
     document.getElementById("app").style.display = "block";
     window.web3 = await Moralis.Web3.enable();
-    window.contract = new web3.eth.Contract(contractAbi, "CONTRACT_ADDRESS");
+    window.contract = new web3.eth.Contract(contractAbi, CONTRACT_ADDRESS);
     updateStats();
 }
 
