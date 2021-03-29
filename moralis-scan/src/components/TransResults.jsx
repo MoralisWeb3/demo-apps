@@ -1,8 +1,11 @@
 import React from "react";
+// import { useTransactions } from "../hooks/transactions";
+import { useResultContext } from "./Paginator";
 
-const cols = ["Txn Hash", "Block", "Age", "From", "To", "Value", "Txn Fee"];
+const cols = ["#", "Txn Hash", "Block", "Age", "From", "To", "Value", "Txn Fee"];
 
-export default function TransResults({trans}) {
+export default function TransResults() {
+  const { results } = useResultContext();
   const getTxnFeeTxt = (trans) => {
     return `${Math.round(trans.gas_price / 1e9)} gwei`;
   }
@@ -18,6 +21,10 @@ export default function TransResults({trans}) {
     )}`;
   }
 
+  if (!results) {
+    return null;
+  }
+
   return (
     <div>
       <table className="table">
@@ -29,8 +36,9 @@ export default function TransResults({trans}) {
           </tr>
         </thead>
         <tbody>
-          {trans.map((t) => (
+          {results.map((t) => (
             <tr key={t.hash}>
+              <td>{t.index}</td>
               <td>{getEllipsisTxt(t.hash)}</td>
               <td>{t.block_number}</td>
               <td>{t.block_timestamp}</td>
