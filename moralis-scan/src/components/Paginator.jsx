@@ -18,30 +18,38 @@ export default function Paginator({ fetchPage, fetchArgs, children }) {
   } = usePagination(fetchPage, fetchArgs);
 
   return (
-    <div>
-      <div className="d-flex justify-content-between">
-        <span>A total of {numResults} transactions found</span>
-        <div>
-          <button className="btn btn-info ms-1" onClick={() => setCurrPage(1)}>
-            First
-          </button>
-          <button className="btn btn-info ms-1" onClick={prevPage}>
-            {"<"}
-          </button>
-          <span className="btn btn-info ms-1">
-            Page {currPage} of {totalPages}
-          </span>
-          <button className="btn btn-info ms-1" onClick={nextPage}>
-            {">"}
-          </button>
-          <button className="btn btn-info ms-1" onClick={() => setCurrPage(totalPages)}>
-            Last
-          </button>
+    <div className="card">
+      <div className="card-body">
+        <div className="d-flex justify-content-between">
+          <span>A total of {numResults} transactions found</span>
+          <div>
+            <button
+              className="btn btn-info ms-1"
+              onClick={() => setCurrPage(1)}
+            >
+              First
+            </button>
+            <button className="btn btn-info ms-1" onClick={prevPage}>
+              {"<"}
+            </button>
+            <span className="btn btn-info ms-1">
+              Page {currPage} of {totalPages}
+            </span>
+            <button className="btn btn-info ms-1" onClick={nextPage}>
+              {">"}
+            </button>
+            <button
+              className="btn btn-info ms-1"
+              onClick={() => setCurrPage(totalPages)}
+            >
+              Last
+            </button>
+          </div>
         </div>
+        <ResultContext.Provider value={{ results }}>
+          {children}
+        </ResultContext.Provider>
       </div>
-      <ResultContext.Provider value={{results}}>
-        {children}
-      </ResultContext.Provider>
     </div>
   );
 }

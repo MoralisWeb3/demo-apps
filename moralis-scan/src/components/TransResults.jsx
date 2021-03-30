@@ -1,10 +1,10 @@
 import React from "react";
-// import { useTransactions } from "../hooks/transactions";
 import { useResultContext } from "./Paginator";
+import "./TransResults.css";
 
 const cols = ["#", "Txn Hash", "Block", "Age", "From", "To", "Value", "Txn Fee"];
 
-export default function TransResults() {
+export default function TransResults({address}) {
   const { results } = useResultContext();
   const getTxnFeeTxt = (trans) => {
     return `${Math.round(trans.gas_price / 1e9)} gwei`;
@@ -28,7 +28,7 @@ export default function TransResults() {
   return (
     <div>
       <table className="table">
-        <thead>
+        <thead className="thead-light">
           <tr>
             {cols.map((colName) => (
               <th scope="col" key={colName}>{colName}</th>

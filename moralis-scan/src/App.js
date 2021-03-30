@@ -2,6 +2,7 @@ import moralis from "moralis";
 import { useState } from "react";
 import Paginator from "./components/Paginator";
 import Search from "./components/Search";
+import TokenBalance from "./components/TokenBalance";
 import TransResults from "./components/TransResults";
 import { fetchTransactions } from "./queries/transactions";
 
@@ -24,9 +25,12 @@ function App() {
       <h1>Moralis Scan</h1>
       <Search handleSearch={onSearch} />
       {address && (
-        <Paginator fetchPage={fetchTransactions} fetchArgs={{ address }}>
-          <TransResults />
-        </Paginator>
+        <div className="py-3">
+          <TokenBalance address={address} />
+          <Paginator fetchPage={fetchTransactions} fetchArgs={{ address }}>
+            <TransResults address={address} />
+          </Paginator>
+        </div>
       )}
     </div>
   );
