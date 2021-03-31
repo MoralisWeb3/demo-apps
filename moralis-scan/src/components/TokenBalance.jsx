@@ -2,10 +2,10 @@ import React from "react";
 import { useTokenBalances } from "../queries/tokenBalance";
 import "./TokenBalance.css";
 
-export default function TokenBalance({ address }) {
-  const { tokens, loading } = useTokenBalances(address);
+export default function TokenBalance() {
+  const { address, tokens, loading } = useTokenBalances();
 
-  if (loading || !tokens) {
+  if (!address || loading || !tokens) {
     return null;
   }
 
@@ -43,7 +43,7 @@ export default function TokenBalance({ address }) {
                 aria-labelledby="dropdownMenuButton1"
               >
                 {tokens.map((token) => (
-                  <li>
+                  <li key={token.name}>
                     <button className="dropdown-item" >
                       <div className="d-flex justify-content-between align-itmes-center">
                         <span>{token.name}</span>

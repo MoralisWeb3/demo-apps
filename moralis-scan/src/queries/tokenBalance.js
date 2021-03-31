@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { useMoralisQuery } from "../hooks/query";
 
 /**
  * Returns a list of ERC20 tokens owned by the given address
  * @param {string} address ETH address
  */
-export const useTokenBalances = (address) => {
+export const useTokenBalances = () => {
+  const { address } = useParams();
   const { data = [], loading } = useMoralisQuery("EthTokenBalance", {
     live: false,
     params: [address],
@@ -32,7 +34,7 @@ export const useTokenBalances = (address) => {
     setTokens(result);
   }, [data]);
 
-  return { tokens, loading };
+  return { address, tokens, loading };
 };
 
 // convert value into a more readable format

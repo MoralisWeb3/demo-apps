@@ -4,7 +4,7 @@ import "./TransResults.css";
 
 const cols = ["#", "Txn Hash", "Block", "Age", "From", "To", "Value", "Txn Fee"];
 
-export default function TransResults({address}) {
+export default function TransResults() {
   const { results } = useResultContext();
   const getTxnFeeTxt = (trans) => {
     return `${Math.round(trans.gas_price / 1e9)} gwei`;
