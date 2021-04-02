@@ -26,7 +26,7 @@ export default function Search() {
     setLoading(false);
 
     // navigate to address search result component
-    history.push(`/address/${searchAddress}`);
+    history.push(`/address/${searchAddress}/all`);
   };
 
   return (
@@ -46,11 +46,11 @@ export default function Search() {
             {loading && (
               <>
                 <span
-                  class="spinner-border spinner-border-sm"
+                  className="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true"
                 ></span>
-                <span class="visually-hidden">Loading...</span>
+                <span className="visually-hidden">Loading...</span>
               </>
             )}
           </button>

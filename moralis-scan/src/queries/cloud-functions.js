@@ -1,0 +1,56 @@
+import Moralis from "moralis";
+
+// Cloud Functions- copy these into the Moralis server instance
+Moralis.Cloud.define("getTokenTranfers", async (request) => {
+  const { userAddress, pageSize = 10, offset = 0 } = request.params;
+  const output = {
+    results: [],
+    count: 0,
+  };
+
+  // count results
+  const matchPipeline = {
+    match: {
+      \$expr: {
+        \$or: [
+          { \$eq: ["\$from_address", userAddress] },
+          { \$eq: ["\$to_address", userAddress] },
+        ],
+      },
+    },
+    sort: { block_number: -1 },
+    count: "count",
+  };
+  const query = new Moralis.Query("EthTokenTransfers");
+  const countResult = await query.aggregate(matchPipeline);
+  output.count = countResult[0].count;
+
+  // get page results
+  const lookupPipeline = {
+    ...matchPipeline,
+    skip: offset,
+    limit: pageSize,
+    lookup: {
+      from: "EthTokenBalance",
+      let: { tokenAddress: "\$token_address", userAddress },
+      pipeline: [
+        {
+          \$match: {
+            \$expr: {
+              \$and: [
+                { \$eq: ["\$token_address", "\$\$tokenAddress"] },
+                { \$eq: ["\$address", "\$\$userAddress"] },
+              ],
+            },
+          },
+        },
+      ],
+      as: "EthTokenBalance",
+    },
+    unwind: "\$EthTokenBalance",
+  };
+  delete lookupPipeline.count;
+
+  output.results = await query.aggregate(lookupPipeline);
+  return output;
+});

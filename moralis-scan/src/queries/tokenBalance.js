@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useMoralisQuery } from "../hooks/query";
+import { tokenValueTxt } from "./utils";
 
 /**
  * Returns a list of ERC20 tokens owned by the given address
@@ -39,6 +40,8 @@ export const useTokenBalances = () => {
 
 // convert value into a more readable format
 const convertBalance = (token) =>
-  `${+token.attributes.balance / Math.pow(10, +token.attributes.decimals)} ${
+  tokenValueTxt(
+    +token.attributes.balance,
+    +token.attributes.decimals,
     token.attributes.symbol
-  }`;
+  );

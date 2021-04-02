@@ -1,15 +1,10 @@
 import React from "react";
-import { agoTxt, getEllipsisTxt, tokenValueTxt } from "../queries/utils";
+import { agoTxt, getEllipsisTxt } from "../queries/utils";
 import { useResultContext } from "./Paginator";
+
 import "./TransResults.css";
 
-const cols = ["#", "Txn Hash", "Block", "Age", "From", "To", "Value", "Txn Fee"];
-
-const toEth = (wei) => tokenValueTxt(wei, 18, "ETH");
-
-const getTxnFeeTxt = (trans) => {
-  return `${Math.round(trans.gas_price / 1e9)} gwei`;
-}
+const cols = ["Txn Hash", "Age", "From", "To", "Value", "Token"];
 
 export default function TransResults() {
   const { results } = useResultContext();
@@ -28,16 +23,14 @@ export default function TransResults() {
           </tr>
         </thead>
         <tbody>
-          {results.map((t) => (
-            <tr key={t.hash}>
-              <td>{t.index}</td>
-              <td>{getEllipsisTxt(t.hash)}</td>
-              <td>{t.block_number}</td>
+          {results.map((t, i) => (
+            <tr key={i}>
+              <td>{getEllipsisTxt(t.transaction_hash)}</td>
               <td>{agoTxt(t.block_timestamp)}</td>
               <td>{getEllipsisTxt(t.from_address)}</td>
               <td>{getEllipsisTxt(t.to_address)}</td>
-              <td>{toEth(t.value)}</td>
-              <td>{getTxnFeeTxt(t)}</td>
+              <td>{t.value}</td>
+              <td>{t.name}</td>
             </tr>
           ))}
         </tbody>

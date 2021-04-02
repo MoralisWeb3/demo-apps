@@ -39,7 +39,7 @@ export default function TokenBalance() {
                 {tokens.length} ERC20 Tokens
               </button>
               <ul
-                className="dropdown-menu"
+                className="dropdown-menu w-100"
                 aria-labelledby="dropdownMenuButton1"
               >
                 {tokens.map((token) => (
