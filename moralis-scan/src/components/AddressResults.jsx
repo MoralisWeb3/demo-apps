@@ -9,13 +9,16 @@ import {
 import Erc20Transactions from "./Erc20Transactions";
 import TokenBalance from "./TokenBalance";
 import Transactions from "./Transactions";
+import AddressHeader from "./AddressHeader";
 import "./AddressResults.css";
+
 
 export default function AddressResults() {
   const match = useRouteMatch();
 
   return (
     <div className="py-3">
+      <AddressHeader />
       <TokenBalance />
       <Router>
         <div className="card">
