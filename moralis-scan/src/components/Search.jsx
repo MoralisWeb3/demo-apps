@@ -32,7 +32,7 @@ export default function Search() {
   return (
     <div>
       <form onSubmit={submitSearch}>
-        <div className="input-group mb-3">
+        <div className="input-group">
           <input
             type="text"
             className="form-control"
