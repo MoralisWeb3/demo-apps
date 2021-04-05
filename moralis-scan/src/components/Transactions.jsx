@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router";
-import { fetchTransactions } from "../queries/transactions";
+import { processTransaction } from "../queries/transactions";
 import Paginator from "./Paginator";
 import TransResults from "./TransResults";
 
@@ -12,7 +12,11 @@ export default function Transactions() {
 
   return (
     <div>
-      <Paginator fetchPage={fetchTransactions} fetchArgs={{ address }}>
+      <Paginator
+        userAddress={address}
+        methodName="getTransactions"
+        options={{ postProcess: processTransaction }}
+      >
         <TransResults address={address} />
       </Paginator>
     </div>

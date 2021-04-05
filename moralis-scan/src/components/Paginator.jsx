@@ -4,7 +4,7 @@ import { usePagination } from "../hooks/pagination";
 export const ResultContext = createContext({ results: [] });
 export const useResultContext = () => useContext(ResultContext);
 
-export default function Paginator({ fetchPage, fetchArgs, children }) {
+export default function Paginator({methodName, userAddress, options, children }) {
   const {
     // pageSize,
     // setPageSize,
@@ -15,7 +15,7 @@ export default function Paginator({ fetchPage, fetchArgs, children }) {
     prevPage,
     results,
     numResults,
-  } = usePagination(fetchPage, fetchArgs);
+  } = usePagination(methodName, userAddress, options);
 
   return (
     <div>

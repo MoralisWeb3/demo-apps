@@ -1,22 +1,59 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useMoralisCloudQuery } from "./cloudQuery";
 
-export const usePagination = (fetchResults, fetchParams) => {
-  const [results, setResults] = useState([]);
+const defaultPaginationOptions = {
+  postProcess: (r) => r.attributes, // function to apply to each result (result) => result
+};
+
+/**
+ * Hook for managing page state
+ * @param {string} methodName Cloud Function name. The Cloud Function must have the following params:
+ *   * userAddress: string
+ *   * pageSize: number
+ *   * offset: number
+ * The expected return value is an object with the shape:
+ * {
+ *   results: Array,
+ *   count: number
+ * }
+ * @param {string} userAddress user ETH address
+ * @param {object} options query options
+ * @returns {object} page state
+ */
+export const usePagination = (
+  methodName,
+  userAddress,
+  options = defaultPaginationOptions
+) => {
   const [pageSize, setPageSize] = useState(10);
   const [currPage, setCurrPage] = useState(1);
+  const [offset, setOffset] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [numResults, setNumResults] = useState(0)
+  const [numResults, setNumResults] = useState(0);
+  const queryOptions = useMemo(()=> ({
+    includesCount: true,
+    countName: "count",
+    params: {
+      userAddress,
+      pageSize,
+      offset,
+    },
+    postProcess: options.postProcess,
+  }), [userAddress, pageSize, offset, options.postProcess])
+  const { data, error, loading } = useMoralisCloudQuery(methodName, queryOptions);
 
   useEffect(() => {
-    // fetch the data for this page
-    const offset = (currPage - 1) * pageSize;
-    fetchResults(pageSize, offset, fetchParams).then((data) => {
-      const numPages = Math.ceil(data.count / pageSize) || 0;
-      setTotalPages(numPages);
-      setNumResults(data.count);
-      setResults(data.results);
-    });
-  }, [currPage, pageSize, fetchParams]);
+    if (data) {
+      setNumResults(data.count || 0);
+      const n = Math.ceil(data.count / pageSize);
+      setTotalPages(n);
+    }
+  }, [data, pageSize]);
+
+  useEffect(() => {
+    const nextOffset = (currPage - 1) * pageSize;
+    setOffset(nextOffset);
+  }, [currPage, pageSize]);
 
   const nextPage = () => {
     if (currPage >= totalPages) {
@@ -44,7 +81,9 @@ export const usePagination = (fetchResults, fetchParams) => {
     setCurrPage,
     nextPage,
     prevPage,
-    results,
+    results: data?.results || [],
     numResults,
+    loading,
+    error,
   };
 };

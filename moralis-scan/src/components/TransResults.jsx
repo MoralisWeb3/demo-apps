@@ -3,7 +3,7 @@ import { agoTxt, getEllipsisTxt, tokenValueTxt } from "../queries/utils";
 import { useResultContext } from "./Paginator";
 import "./TransResults.css";
 
-const cols = ["#", "Txn Hash", "Block", "Age", "From", "To", "Value", "Txn Fee"];
+const cols = ["Txn Hash", "Block", "Age", "From", "To", "Value", "Txn Fee"];
 
 const toEth = (wei) => tokenValueTxt(wei, 18, "ETH");
 
@@ -30,7 +30,6 @@ export default function TransResults() {
         <tbody>
           {results.map((t) => (
             <tr key={t.hash}>
-              <td>{t.index}</td>
               <td>{getEllipsisTxt(t.hash)}</td>
               <td>{t.block_number}</td>
               <td>{agoTxt(t.block_timestamp)}</td>
