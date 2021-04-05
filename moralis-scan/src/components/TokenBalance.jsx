@@ -42,8 +42,8 @@ export default function TokenBalance() {
                 className="dropdown-menu w-100"
                 aria-labelledby="dropdownMenuButton1"
               >
-                {tokens.map((token) => (
-                  <li key={token.name}>
+                {tokens.map((token, i) => (
+                  <li key={i}>
                     <button className="dropdown-item" >
                       <div className="d-flex justify-content-between align-itmes-center">
                         <span>{token.name}</span>

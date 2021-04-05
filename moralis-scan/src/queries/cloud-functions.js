@@ -11,6 +11,7 @@ Moralis.Cloud.define("getTransactions", async (request) => {
 
   const query = Moralis.Query.or(fromQuery, toQuery);
   query.limit(pageSize);
+  query.descending("block_number");
   query.withCount();
   if (offset) {
     query.skip(offset);
