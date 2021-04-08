@@ -1,1 +1,4 @@
 casino-dapp/truffle/build
+*/build
+node_modules
+.env
