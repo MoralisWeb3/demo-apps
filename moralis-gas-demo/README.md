@@ -63,30 +63,9 @@ The current user will always be authenticated and will return `null` if there is
 
 Once a user has been authenticated, the server can sync their transactions and that data can be queried. This requires some set up in the Moralis backend.
 
-Log into the Moralis back end, find your server, click the "Cloud Functions" button, paste the following code, and click "Save File".
-
-```javascript
-// @@@ Paste this code into the Moralis Cloud Functions section on the server @@@
-
-// List of user selected / default plugins
-const plugins = [
-  "./eth/realtime/blocks",
-  "./eth/realtime/balances",
-  "./eth/realtime/token_transfers",
-  "./eth/historical/transactions",
-  function customUserPlugin() {
-    // PUT CUSTOM CLOUD FUNCTION CODE HERE
-  },
-];
-
-Moralis.Cloud.plugins.initialize(plugins);
-```
-
-This will run the sync job. If you log into the Moralis Dashboard you should see a `syncEthAddress` job in the `Jobs` section of the side panel. Once the transactions have been sync'd you will see rows in the `EthTokenBalance`, `EthTokenTransfers`, `EthTransfers` sections.
-
 ### Running Queries
 
-Moralis extends the functionality of Parse and should be able to do anything Prase can. See the docs <a href="https://docs.parseplatform.org/js/guide/#queries" target="_blank">here</a> for more details.
+Moralis extends the functionality of Parse and should be able to do anything Prase can. See the docs <a href="https://docs.moralis.io/queries" target="_blank">here</a> for more details.
 
 Any of the collections listed under the "Browse" section in the Moralis Dashboard can be queried.
 
@@ -107,7 +86,7 @@ const results = await query.find();
 
 ## Cloud Functions
 
-More advanced queries, like ones which use "group by" require a Could Function as they <a href="https://docs.parseplatform.org/js/guide/#aggregate" target="_blank">need special permissions</a>. This is a query which runs on the server and saves the client from doing more intense work that can be more easily processed server side.
+More advanced queries, like ones which use "group by" require a Could Function as they <a href="https://docs.moralis.io/queries#aggregate" target="_blank">need special permissions</a>. This is a query which runs on the server and saves the client from doing more intense work that can be more easily processed server side.
 
 Cloud Functions are defined as follows. Any params will be be in `request.params`.
 
@@ -123,7 +102,6 @@ The function definitions need to be added to the Moralis Server. Click the "Clou
 ```javascript
 // @@@ Paste this code into the Moralis Cloud Functions section on the server @@@
 
-// note: the $ signs currently need to be escaped to prevent parsing errors
 Moralis.Cloud.define("topTenAvgGas", async function (request) {
   const query = new Moralis.Query("EthTransactions");
   const pipeline = [
@@ -131,11 +109,11 @@ Moralis.Cloud.define("topTenAvgGas", async function (request) {
       // group by "from_address"
       // add computed properties with the avg, min, max, count
       group: {
-        objectId: "\$from_address",
-        avgGas: { \$avg: "\$gas_price" },
-        minGas: { \$min: "\$gas_price" },
-        maxGas: { \$max: "\$gas_price" },
-        count: { \$sum: 1 },
+        objectId: "$from_address",
+        avgGas: { $avg: "$gas_price" },
+        minGas: { $min: "$gas_price" },
+        maxGas: { $max: "$gas_price" },
+        count: { $sum: 1 },
       },
     },
     { sort: { avgGas: -1 } }, // descending
@@ -148,9 +126,7 @@ Moralis.Cloud.define("topTenAvgGas", async function (request) {
 });
 ```
 
-See the <a href="https://docs.parseplatform.org/js/guide/#aggregate" target="_blank">Parse</a> and <a href="https://docs.mongodb.com/v3.2/reference/operator/aggregation/" target="_blank">MongoDB</a> docs for more details on queries.
-
-In the current beta version the special char `$` which denotes path variables needs to be escaped like `\$` to prevent a parsing error in the Moralis server back end code. This will be fixed in a future version.
+See the <a href="https://docs.moralis.io/queries#aggregate" target="_blank">Query Aggregate</a> and <a href="https://docs.mongodb.com/v3.2/reference/operator/aggregation/" target="_blank">MongoDB</a> docs for more details on queries.
 
 ### Running Cloud Functions from the broswer
 
