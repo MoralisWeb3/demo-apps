@@ -30,10 +30,10 @@ Moralis.Cloud.define("getTokenTranfers", async (request) => {
   // count results
   const matchPipeline = {
     match: {
-      \$expr: {
-        \$or: [
-          { \$eq: ["\$from_address", userAddress] },
-          { \$eq: ["\$to_address", userAddress] },
+      $expr: {
+        $or: [
+          { $eq: ["$from_address", userAddress] },
+          { $eq: ["$to_address", userAddress] },
         ],
       },
     },
@@ -51,14 +51,14 @@ Moralis.Cloud.define("getTokenTranfers", async (request) => {
     limit: pageSize,
     lookup: {
       from: "EthTokenBalance",
-      let: { tokenAddress: "\$token_address", userAddress },
+      let: { tokenAddress: "$token_address", userAddress },
       pipeline: [
         {
-          \$match: {
-            \$expr: {
-              \$and: [
-                { \$eq: ["\$token_address", "\$\$tokenAddress"] },
-                { \$eq: ["\$address", "\$\$userAddress"] },
+          $match: {
+            $expr: {
+              $and: [
+                { $eq: ["$token_address", "$$tokenAddress"] },
+                { $eq: ["$address", "$$userAddress"] },
               ],
             },
           },
@@ -66,7 +66,7 @@ Moralis.Cloud.define("getTokenTranfers", async (request) => {
       ],
       as: "EthTokenBalance",
     },
-    unwind: "\$EthTokenBalance",
+    unwind: "$EthTokenBalance",
   };
   delete lookupPipeline.count;
 
