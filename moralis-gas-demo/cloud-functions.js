@@ -9,11 +9,11 @@ Moralis.Cloud.define("topTenAvgGas", async function (request) {
       // group by "from_address"
       // add computed properties with the avg, min, max, count
       group: {
-        objectId: "\$from_address",
-        avgGas: { \$avg: "\$gas_price" },
-        minGas: { \$min: "\$gas_price" },
-        maxGas: { \$max: "\$gas_price" },
-        count: { \$sum: 1 },
+        objectId: "$from_address",
+        avgGas: { $avg: "$gas_price" },
+        minGas: { $min: "$gas_price" },
+        maxGas: { $max: "$gas_price" },
+        count: { $sum: 1 },
       },
     },
     { sort: { avgGas: -1 } }, // descending
