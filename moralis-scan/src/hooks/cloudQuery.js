@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import Moralis from "moralis";
 
-const defaultQueryOptions = {
+export const getAttributes = (r) => r.attributes;
+
+export const defaultCloudQueryOptions = {
   includesCount: false,
   countName: "count",
   params: {}, // query params
-  postProcess: (r) => r.attributes, // function to be called on each result (result) => result,
+  postProcess: getAttributes, // function to be called on each result (result) => result,
+  onSuccess: () => {}, // function called on success
 };
 
 /**
@@ -16,7 +19,7 @@ const defaultQueryOptions = {
  */
 export function useMoralisCloudQuery(
   methodName,
-  options = defaultQueryOptions
+  options = defaultCloudQueryOptions
 ) {
   const [state, setState] = useState({
     data: null,
@@ -27,21 +30,35 @@ export function useMoralisCloudQuery(
   useEffect(() => {
     if (methodName) {
       setState((v) => ({ ...v, loading: true }));
-      console.log("useMoralisCloudQuery:: options:", options);
+      console.log("useMoralisCloudQuery:: methodName:", methodName," options:", options);
       Moralis.Cloud.run(methodName, options.params)
         .then((data) => {
-          let output = {};
-          if (options.includesCount) {
-            output.results = data.results.map(options.postProcess);
-            output[options.countName] = data[options.countName];
-          } else {
-            output = data.map(options.postProcess);
-          }
-          console.log("useMoralisCloudQuery:: output:", output);
+          console.log("useMoralisCloudQuery:: data:", data);
+          if (data) {
+            let output = {};
+            if (options.includesCount) {
+              output.results = options.postProcess
+                ? data.results.map(options.postProcess)
+                : data.results;
+              output[options.countName] = data[options.countName];
+            } else {
+              output = options.postProcess
+                ? data.map(options.postProcess)
+                : data;
+            }
+            console.log("useMoralisCloudQuery:: output:", output);
 
-          setState({ data: output, error: null, loading: false });
+            setState({ data: output, error: null, loading: false });
+          } else {
+            setState({ data: null, error: null, loading: false });
+          }
+
+          if (typeof options.onSuccess === "function") {
+            options.onSuccess();
+          }
         })
         .catch((error) => {
+          console.error(error);
           setState({ data: null, error, loading: false });
         });
     }

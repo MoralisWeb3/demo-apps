@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import Moralis from "moralis";
+import React, { useMemo, useState } from "react";
 import { useHistory } from "react-router";
+import { useMoralisCloudQuery } from "../hooks/cloudQuery";
 
 export default function Search() {
   const [searchTxt, setSearchTxt] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
   const [error, setError] = useState(null);
   const history = useHistory();
 
   const onSearchTextChanged = (e) => setSearchTxt(e.target.value);
+  const watchParams = useMemo(()=> ({
+    params: {address}, // query params
+    onSuccess: () => history.push(`/address/${address}/all`),
+  }), [address, history]);
+  const {loading} = useMoralisCloudQuery("watchEthAddress", watchParams)
+
   const submitSearch = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
     const searchAddress = searchTxt.trim().toLowerCase();
@@ -20,13 +25,9 @@ export default function Search() {
       const msg = "not an address";
       console.log(msg);
       setError(msg);
+      return;
     }
-
-    await Moralis.Cloud.run("watchEthAddress", { address: searchAddress });
-    setLoading(false);
-
-    // navigate to address search result component
-    history.push(`/address/${searchAddress}/all`);
+    setAddress(searchAddress);
   };
 
   return (
