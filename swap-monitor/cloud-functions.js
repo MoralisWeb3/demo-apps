@@ -57,29 +57,29 @@ Moralis.Cloud.afterSave("DaiWethSwaps", async function (request) {
   const end = new Date();
   const start = new Date(end.valueOf() - 3600000); // 1 hour ago
   const pipeline = [
-    {match: {block_timestamp: {\$gt: start}}},
+    {match: {block_timestamp: {$gt: start}}},
     // convert text values into numbers so they can be summed
     {addFields:{
-      nAmount0In: {\$toDouble: "\$amount0In"},
-      nAmount1In: {\$toDouble: "\$amount1In"},
-      nAmount0Out: {\$toDouble: "\$amount0Out"},
-      nAmount1Out: {\$toDouble: "\$amount1Out"},
+      nAmount0In: {$toDouble: "$amount0In"},
+      nAmount1In: {$toDouble: "$amount1In"},
+      nAmount0Out: {$toDouble: "$amount0Out"},
+      nAmount1Out: {$toDouble: "$amount1Out"},
     }},
     {
       group: {
         objectId: null,
-        totalAmount0In: {\$sum: "\$nAmount0In"},
-        totalAmount1In: {\$sum: "\$nAmount1In"},
-        totalAmount0Out: {\$sum: "\$nAmount0Out"},
-        totalAmount1Out: {\$sum: "\$nAmount1Out"},
+        totalAmount0In: {$sum: "$nAmount0In"},
+        totalAmount1In: {$sum: "$nAmount1In"},
+        totalAmount0Out: {$sum: "$nAmount0Out"},
+        totalAmount1Out: {$sum: "$nAmount1Out"},
       }
     },
     // convert wei into ETH
     {project: {
-      dTotalAmount0In: {\$divide: ["\$totalAmount0In", 1e18]},
-      dTotalAmount1In: {\$divide: ["\$totalAmount1In", 1e18]},
-      dTotalAmount0Out: {\$divide: ["\$totalAmount0Out", 1e18]},
-      dTotalAmount1Out: {\$divide: ["\$totalAmount1Out", 1e18]},
+      dTotalAmount0In: {$divide: ["$totalAmount0In", 1e18]},
+      dTotalAmount1In: {$divide: ["$totalAmount1In", 1e18]},
+      dTotalAmount0Out: {$divide: ["$totalAmount0Out", 1e18]},
+      dTotalAmount1Out: {$divide: ["$totalAmount1Out", 1e18]},
     }},
   ];
   const results = await query.aggregate(pipeline, {useMasterKey: true});

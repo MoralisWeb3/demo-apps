@@ -4,8 +4,8 @@ Moralis.Cloud.define("biggestLosers", async function(request) {
   const pipeline = [
     {
       group: {
-        objectId: "\$user", 
-        totalLost: { \$sum: { \$toInt: "\$bet" }},
+        objectId: "$user", 
+        totalLost: { $sum: { $toInt: "$bet" }},
       },
     },
     { sort: {totalLost: -1}},
@@ -24,8 +24,8 @@ Moralis.Cloud.define("biggestWinners", async function(request) {
   const pipeline = [
     {
       group: {
-        objectId: "\$user", 
-        totalWon: { \$sum: { \$toInt: "\$bet" }},
+        objectId: "$user", 
+        totalWon: { $sum: { $toInt: "$bet" }},
       },
     },
     { sort: {totalWon: -1}},
@@ -46,7 +46,7 @@ Moralis.Cloud.define("biggestBets", async function(request) {
       project: {
         user: 1,
         win: 1,
-        bet: { \$toInt: "\$bet" },
+        bet: { $toInt: "$bet" },
       },
     },
     { sort: {bet: -1}},

@@ -87,7 +87,7 @@ Table name: the name of the collection the data will be saved to
 ### 2. Create a query and subscribe to it
 
 Now that Moralis is listening to the `Swap` event it will save all event logs to the `DaiWethSwaps` collection we named above. This data can now be queried. See the
-<a href="https://docs.moralis.io/queries-2" target="_blank">Query</a> and <a href="https://docs.moralis.io/live-queries" target="_blank">Live Query</a> docs for more details on queries.
+<a href="https://docs.moralis.io/queries" target="_blank">Query</a> and <a href="https://docs.moralis.io/live-queries" target="_blank">Live Query</a> docs for more details on queries.
 
 ```javascript
 // select the 10 most recent swaps
