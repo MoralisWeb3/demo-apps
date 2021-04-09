@@ -17,7 +17,7 @@ export const tokenValueTxt = (value, decimals, symbol) =>
   decimals ? `${n6.format(value / Math.pow(10, decimals))} ${symbol}` : `${value}`;
 
 /**
- * Return human readable interval since the given time stamp (i.e. 1 minute ago)
+ * Return human readable interval from the given time stamp (i.e. 1 minute ago)
  * @param {number} unixTimeStampMili Unix style timestamp in miliseconds
  * @returns {string}
  */
@@ -34,4 +34,10 @@ export const getEllipsisTxt = (str, n = 6) => {
     str.length - n,
     str.length
   )}`;
+}
+
+export const toEth = (wei) => tokenValueTxt(wei, 18, "ETH");
+
+export const toGwei = (wei) => {
+  return `${Math.round(wei / 1e9)} gwei`;
 }

@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import moralis from "moralis";
+import Moralis from "moralis";
 import AddressResults from "./components/AddressResults";
 import Home from "./components/Home";
 import Header from "./components/Header";
 
-moralis.initialize(process.env.REACT_APP_MORALIS_APPLICATION_ID);
-moralis.serverURL = process.env.REACT_APP_MORALIS_SERVER_URL;
+Moralis.initialize(process.env.REACT_APP_MORALIS_APPLICATION_ID);
+Moralis.serverURL = process.env.REACT_APP_MORALIS_SERVER_URL;
 
 function App() {
   return (
