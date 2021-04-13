@@ -34,7 +34,7 @@ export default function TransResults() {
           {results.map((t, i) => (
             <tr key={i}>
               {cols.map((col) => (
-                <td>{t[col.key]}</td>
+                <td key={col.colName}>{t[col.key]}</td>
               ))}
             </tr>
           ))}

@@ -1,5 +1,24 @@
 import Moralis from "moralis";
 
+Moralis.Cloud.define("searchEthAddress", async function(request) {
+  const { address } = request.params
+  if (!address) {
+    return null
+  }
+
+  // find out if address is already watched
+  const query = new Moralis.Query("WatchedEthAddress");
+  query.equalTo("address", address)
+  const watchCount = await query.count();
+  
+  if (watchCount > 0) {
+    // already watched don't sync again
+    return null;
+  }
+  
+  return Moralis.Cloud.run("watchEthAddress", {address});
+});
+
 // Cloud Functions- copy these into the Moralis server instance
 Moralis.Cloud.define("getTransactions", async (request) => {
   const {userAddress, pageSize, pageNum } = request.params;
