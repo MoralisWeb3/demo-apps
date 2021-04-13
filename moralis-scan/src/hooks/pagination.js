@@ -27,7 +27,6 @@ export const usePagination = (
 ) => {
   const [pageSize, setPageSize] = useState(10);
   const [currPage, setCurrPage] = useState(1);
-  const [offset, setOffset] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [numResults, setNumResults] = useState(0);
   const queryOptions = useMemo(()=> ({
@@ -36,10 +35,10 @@ export const usePagination = (
     params: {
       userAddress,
       pageSize,
-      offset,
+      pageNum: currPage,
     },
     postProcess: options.postProcess,
-  }), [userAddress, pageSize, offset, options.postProcess])
+  }), [userAddress, pageSize, currPage, options.postProcess])
   const { data, error, loading } = useMoralisCloudQuery(methodName, queryOptions);
 
   useEffect(() => {
@@ -49,11 +48,6 @@ export const usePagination = (
       setTotalPages(n);
     }
   }, [data, pageSize]);
-
-  useEffect(() => {
-    const nextOffset = (currPage - 1) * pageSize;
-    setOffset(nextOffset);
-  }, [currPage, pageSize]);
 
   const nextPage = () => {
     if (currPage >= totalPages) {

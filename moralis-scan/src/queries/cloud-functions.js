@@ -2,7 +2,9 @@ import Moralis from "moralis";
 
 // Cloud Functions- copy these into the Moralis server instance
 Moralis.Cloud.define("getTransactions", async (request) => {
-  const { userAddress, pageSize = 10, offset = 0 } = request.params;
+  const {userAddress, pageSize, pageNum } = request.params;
+  const offset = (pageNum - 1) * pageSize;
+  
   const fromQuery = new Moralis.Query("EthTransactions");
   fromQuery.equalTo("from_address", userAddress);
 
@@ -11,17 +13,18 @@ Moralis.Cloud.define("getTransactions", async (request) => {
 
   const query = Moralis.Query.or(fromQuery, toQuery);
   query.descending("block_number");
-  query.limit(pageSize);
-  query.withCount();
   if (offset) {
     query.skip(offset);
   }
+  query.limit(pageSize);
+  query.withCount();
 
   return query.find();
 });
 
 Moralis.Cloud.define("getTokenTranfers", async (request) => {
-  const { userAddress, pageSize = 10, offset = 0 } = request.params;
+  const {userAddress, pageSize, pageNum } = request.params;
+  const offset = (pageNum - 1) * pageSize;
   const output = {
     results: [],
     count: 0,
