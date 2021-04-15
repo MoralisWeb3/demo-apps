@@ -9,11 +9,18 @@ export default function Search() {
   const history = useHistory();
 
   const onSearchTextChanged = (e) => setSearchTxt(e.target.value);
-  const watchParams = useMemo(()=> ({
-    params: {address}, // query params
-    onSuccess: () => history.push(`/address/${address}/all`),
-  }), [address, history]);
-  const {loading} = useMoralisCloudQuery("searchEthAddress", watchParams)
+  const watchParams = useMemo(
+    () => ({
+      params: { address }, // query params
+      onSuccess: () => {
+        if (address) {
+          history.push(`/address/${address}/main`);
+        }
+      },
+    }),
+    [address, history]
+  );
+  const { loading } = useMoralisCloudQuery("searchEthAddress", watchParams);
 
   const submitSearch = async (e) => {
     e.preventDefault();

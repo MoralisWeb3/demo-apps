@@ -14,7 +14,7 @@ function App() {
       <Router>
         <Header />
         <Switch>
-          <Route path="/address/:address" component={AddressResults} />
+          <Route path="/address/:address/:transType" component={AddressResults} />
           <Route exact path="/" component={Home} />
         </Switch>
       </Router>
