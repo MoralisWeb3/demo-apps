@@ -17,6 +17,7 @@ const TransTypeOptions = {
     ],
     methodName: "getTransactions",
     postProcess: processTransaction,
+    itemName: "transactions",
   },
   erc20: {
     cols: [
@@ -29,6 +30,7 @@ const TransTypeOptions = {
     ],
     methodName: "getTokenTranfers",
     postProcess: processTokenTransfer,
+    itemName: "transactions",
   },
   tokenBalance: {
     cols: [
@@ -37,6 +39,7 @@ const TransTypeOptions = {
     ],
     methodName: "getTokenBalances",
     postProcess: processTokenBalance,
+    itemName: "tokens",
   },
 };
 

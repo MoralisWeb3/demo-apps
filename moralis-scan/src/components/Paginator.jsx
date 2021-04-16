@@ -4,10 +4,8 @@ import { usePagination } from "../hooks/pagination";
 export const ResultContext = createContext({ results: [] });
 export const useResultContext = () => useContext(ResultContext);
 
-export default function Paginator({methodName, userAddress, options, children }) {
+export default function Paginator({methodName, userAddress, options, itemName = "transactions", children }) {
   const {
-    // pageSize,
-    // setPageSize,
     totalPages,
     setCurrPage,
     currPage,
@@ -20,7 +18,7 @@ export default function Paginator({methodName, userAddress, options, children })
   return (
     <div>
       <div className="d-flex justify-content-between align-items-start mb-2">
-        <span>A total of {numResults} transactions found</span>
+        <span>A total of {numResults} {itemName} found</span>
         <div>
           <button className="btn btn-info ms-1" onClick={() => setCurrPage(1)}>
             First
