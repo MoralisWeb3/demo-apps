@@ -41,6 +41,15 @@ export default function AddressResults() {
                   ERC20 Token Txns
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link"
+                  activeClassName="active"
+                  to={`/address/${address}/tokenBalance`}
+                >
+                  Token Balances
+                </NavLink>
+              </li>
             </ul>
           </div>
           <div className="card-body">
