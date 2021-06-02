@@ -154,9 +154,6 @@ async function constructStatsQuery() {
   }
 
   statQuery = new Moralis.Query("DaiWethSwapVolume60");
-  statQuery.descending("date_time");
-  statQuery.limit(1);
-
   const sub = await statQuery.subscribe();
   handleStatsUpdate(sub);
 
@@ -164,8 +161,8 @@ async function constructStatsQuery() {
 }
 
 function handleStatsUpdate(subscription) {
-  subscription.on("create", function(data) {
-    console.log(data);
+  subscription.on("update", function(data) {
+    console.log("stats update:", data);
     renderStats(data);
   });
 }
