@@ -3,3 +3,7 @@ casino-dapp/truffle/build
 node_modules
 .env
 .vscode
+
+# ethers
+*/artifacts
+*/cache/
