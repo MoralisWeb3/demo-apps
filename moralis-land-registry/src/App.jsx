@@ -8,6 +8,9 @@ theme = responsiveFontSizes(theme);
 
 const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
 const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
+if (!APP_ID || !SERVER_URL) {
+  throw new Error("missing app id or server url from .env");
+}
 
 function App() {
   return (

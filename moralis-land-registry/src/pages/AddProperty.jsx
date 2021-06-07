@@ -1,21 +1,38 @@
 import React, { useState } from "react";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
+import { useRegistryContract } from "../hooks/registryContract";
 
 export default function AddProperty() {
-  const [titleFile, setTitleFile] = useState();
+  const [titleFile, setTitleFile] = useState(null);
   const [physAddress, setPhysAddress] = useState("");
-  const [salePrice, setSalePrice] = useState();
-  const [ownerEthAddress, setOwnerEthAddress] = useState();
+  const [salePrice, setSalePrice] = useState(0);
+  const [ownerEthAddress, setOwnerEthAddress] = useState("");
+  const { newProperty } = useRegistryContract();
 
-  const onSaveNewProperty = (e) => {
+  const onSaveNewProperty = async (e) => {
     e.preventDefault();
+
+    if (!titleFile) {
+      alert("Please select a file!");
+      return;
+    } else if (!physAddress) {
+      alert("Please fill in the phsyical address!");
+      return;
+    }
+
+    try {
+      await newProperty({titleFile, physAddress, ownerEthAddress, salePrice});
+      alert("Property created");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div onSubmit={onSaveNewProperty}>
       <Typography variant="h6">Add Property</Typography>
-      <form noValidate>
+      <form>
         <div>
           <TextField
             required
@@ -24,7 +41,7 @@ export default function AddProperty() {
             margin="normal"
             fullWidth
             value={physAddress}
-            onChange={(e) => setPhysAddress(e.target.files)}
+            onChange={(e) => setPhysAddress(e.target.value)}
           />
         </div>
         <div>
@@ -66,7 +83,9 @@ export default function AddProperty() {
           )}
         </Box>
         <div>
-          <Button type="submit" variant="contained" color="primary">Save</Button>
+          <Button type="submit" variant="contained" color="primary">
+            Save
+          </Button>
         </div>
       </form>
     </div>
