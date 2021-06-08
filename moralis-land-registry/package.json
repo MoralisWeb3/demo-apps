@@ -19,6 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "contract": "hardhat run --network localhost scripts/deploy.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

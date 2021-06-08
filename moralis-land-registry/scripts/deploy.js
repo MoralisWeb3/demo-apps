@@ -7,7 +7,7 @@ const hre = require("hardhat");
 
 const name = "Africa Land Registry";
 const symbol = "LAND";
-const baseUri = "ipfs://";
+const baseUri = "https://ipfs.moralis.io:2053/ipfs/";
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
