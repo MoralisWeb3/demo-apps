@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #21bf96;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+main section {
+  flex-grow: 1;
+}
+
+button {
+  font-family: 'Montserrat', Sans-serif;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  padding: 16px 18px 14px 18px;
+  border-radius: 9000px;
+  border: 0;
+  background-color: #041836;
+  transition: all 0.3s;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  width: 100%;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2e7daf;
+}
+
+#btn-logout {
+  display: none;
+}
+
+section.buttons {
+  flex: 1 1 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+section.buttons button + button {
+  margin-left: 20px;
+}
+
+section.result {
+  border-radius: 40px;
+  background-color: white;
+  flex: 1 1 200px;
+  padding: 50px;
+  transition: all 0.3s;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  font-family: 'Courier New', Courier, monospace;
+  overflow-wrap: anywhere;
+  letter-spacing: 0.1rem;
+}
+
+section.result:empty {
+  opacity: 0;
+}
