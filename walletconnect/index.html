@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://github.com/WalletConnect/walletconnect-monorepo/releases/download/1.4.1/web3-provider.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="title">Moralis x WalletConnect</h1>
+      <p id="subheader"></p>
+    </header>
+
+    <main>
+      <section class="buttons">
+        <button id="btn-auth">Login</button>
+        <button id="btn-logout">Logout</button>
+        <button id="btn-enable">Enable web3</button>
+        <button id="btn-call">Test sign call</button>
+      </section>
+      <section class="result" id="result"></section>
+    </main>
+
+    <!-- scripts -->
+    <script src="script.js"></script>
+  </body>
+</html>
