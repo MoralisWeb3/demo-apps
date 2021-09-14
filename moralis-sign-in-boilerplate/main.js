@@ -3,9 +3,10 @@ Moralis.serverURL = "INSERT_SERVER_URL"; //Server url from moralis.io
 
 async function login() {
     try {
-        user = await Moralis.Web3.authenticate();
-        console.log(user);
-        alert("User logged in")
+        currentUser = Moralis.User.current();
+        if(!currentUser){
+            currentUser = await Moralis.Web3.authenticate();
+        }
     } catch (error) {
         console.log(error);
     }
