@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>My DEX</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">My DEX</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <button id="login_button" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Sign in with Metamask</button>
+        </div>
+      </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-6 offset-md-3" id="window">
+                <h4>Swap</h4>
+                <div id="form">
+                    <div class="swapbox">
+                        <div class="swapbox_select token_select" id="from_token_select">
+                            <img class="token_image" id="from_token_img">
+                            <span id="from_token_text"></span>
+                        </div>
+                        <div class="swapbox_select">
+                            <input class="number form-control" placeholder="amount" id="from_amount">
+                        </div>
+                    </div>
+                    <div class="swapbox">
+                        <div class="swapbox_select token_select"  id="to_token_select">
+                            <img class="token_image" id="to_token_img">
+                            <span id="to_token_text"></span>
+                        </div>
+                        <div class="swapbox_select">
+                            <input class="number form-control" placeholder="amount" id="to_amount">
+                        </div>
+                    </div>
+                    <div>Estimated Gas: <span id="gas_estimate"></span></div>
+                    <button disabled class="btn btn-large btn-primary btn-block" id="swap_button">
+                        Swap
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="token_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Select token</h5>
+              <button id="modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="token_list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script type="text/javascript" src="./main.js"></script>
+  </body>
+</html>
