@@ -27,6 +27,7 @@ contract FlipContract is Ownable {
             win = false;
         }
         emit bet(msg.sender, msg.value, win, side);
+        return win;
     }
     // Function to Withdraw Funds
     function withdrawAll() public onlyOwner returns(uint){
