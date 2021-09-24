@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-moralis'`, () => {
+  it(`should have as title 'Angular + Moralis Login'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-moralis');
+    expect(app.title).toEqual('Angular + Moralis Login');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-moralis app is running!');
+    expect(compiled.querySelector('h3').textContent).toContain('Angular + Moralis Login');
   });
 });
