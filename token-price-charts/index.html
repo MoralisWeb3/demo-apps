@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <title>Crypto Price History Boilerplate</title>
+
+	  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis@0.0.64/dist/moralis.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+
+
+  </head>
+
+  <body>
+
+    <button id="btn-login">Moralis Login</button>
+    <button id="btn-logout">Logout</button>
+    <input type="radio" name="time" id="week" value=7 checked>7</input>
+    <input type="radio" name="time" id="2week" value=14 >14</input>
+    <input type="radio" name="time" id="4week" value=30 >30</input>
+    <select id="list"></select>
+    <div>
+      <canvas id="myChart"></canvas>
+    </div>
+    
+    
+
+
+  <script>
+
+    //ADD Your moralis AddID and Serve Url HERE:
+    Moralis.initialize("App ID");
+    Moralis.serverURL = "Server URL";
+    let toks = [];
+
+
+    async function launch(){
+
+    let response = await fetch("https://gateway.ipfs.io/ipns/tokens.uniswap.org");
+    let names = await response.json()
+    toks = names.tokens;
+    
+    toks.forEach((e,i) =>
+    document.getElementById("list").add(new Option(e.symbol, i))
+    )
+
+    priceHistory()
+    }
+
+    launch()
+
+    async function priceHistory() {
+
+      let days = document.querySelector('input[name="time"]:checked').value;
+      let i = document.getElementById("list").value
+      let addrs = toks[i].address
+      let sym = toks[i].symbol
+
+      //Boiler plate examples
+      let dates = ["2021-09-30","2021-10-01","2021-10-02"];
+      let blocks = [13321721,13331721,13341721];
+      let prices = [4,6,3];
+      //Boiler plate examples
+
+      
+      const data = {
+        labels: dates,
+        datasets: [{
+        label: "My Practice Data",
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data:prices,
+        }]
+      };
+
+      const config = {
+        type: 'line',
+        data: data,
+        options: {}
+      };
+
+      if(window.myChart instanceof Chart){
+        myChart.destroy()
+      }
+
+      window.myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+      );
+
+    }
+    
+
+      async function login() {
+        let user = Moralis.User.current();
+        if (!user) {
+          user = await Moralis.Web3.authenticate();
+        }
+        console.log("logged in user:", user);
+      }
+
+      async function logOut() {
+        await Moralis.User.logOut();
+        console.log("logged out");
+      }
+
+      document.getElementById("btn-login").onclick = login;
+      document.getElementById("btn-logout").onclick = logOut;
+      document.getElementById("week").onclick = priceHistory;
+      document.getElementById("2week").onclick = priceHistory;
+      document.getElementById("4week").onclick = priceHistory;
+      document.getElementById("list").onchange = priceHistory;
+
+
+    </script>
+
+
+  </body>
+
+
+</html>
