@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { Moralis } from 'moralis/dist/moralis';
+import { environment } from './../environments/environment';
 
+declare var Moralis;
+Moralis.initialize(environment.app_id);
+Moralis.serverURL = environment.server_url;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

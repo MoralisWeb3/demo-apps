@@ -41,49 +41,15 @@ Go to `https://getbootstrap.com/docs/5.1/getting-started/introduction/`  and cop
 
 ```
 
-
-# VIA NPM
-## Install Moralis
-
-or install moralis using npm
-
-**npm install moralis**
-
-
-angular.module.ts
-```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { environment } from './../environments/environment';
-import { Moralis } from 'moralis/dist/moralis';
-
-Moralis.initialize(environment.app_id);
-Moralis.serverURL = environment.server_url;
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-
-
-```
-
 app.component.ts
 ```js
-import { Component } from '@angular/core';
-import { Moralis } from 'moralis/dist/moralis';
 
+import { Component } from '@angular/core';
+import { environment } from './../environments/environment';
+
+declare var Moralis;
+Moralis.initialize(environment.app_id);
+Moralis.serverURL = environment.server_url;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -122,6 +88,9 @@ export class AppComponent {
 
   }
 
+
+
+
 }
 
 ```
@@ -132,19 +101,19 @@ app.component.html
   <div class="row">
     <div class="col"></div>
     <div class="col">
-      <h3 class="mt-5 mb-5">{{ title }}</h3>
-      <div class="card text-center" style="width: 18rem">
-        <img src="../assets/moralis-logo.png" class="card-img-top" alt="..." />
-        <div class="card-body">
-          <a class="btn btn-outline-primary" (click)="login()">Login with MetaMask</a>
+      <div *ngIf="!isLoggedIn">
+        <h3 class="mt-5 mb-5">{{ title }}</h3>
+        <div class="card text-center" style="width: 18rem">
+          <img src="../assets/moralis-logo.png" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <a class="btn btn-outline-primary" (click)="login()">Login with MetaMask</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col">
       <div *ngIf="isLoggedIn">
-        <h3 class="mt-5">Log in</h3>
+        <h3 class="mt-5 ml-2">Authenticated area</h3>
         <div class="card text-dark bg-light mt-5" style="max-width: 18rem">
-          <div class="card-header">You are login</div>
+          <div class="card-header">Logged</div>
           <div class="card-body">
             <h5 class="card-title">CreatedAt</h5>
             <p class="card-text">{{ createdAt | date: "dd/MM/yyyy" }}</p>
@@ -160,6 +129,10 @@ app.component.html
           </div>
         </div>
       </div>
+
+    </div>
+    <div class="col">
+   
     </div>
   </div>
 </div>
