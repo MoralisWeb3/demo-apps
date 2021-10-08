@@ -7,6 +7,8 @@ This project using Angular + Boostrap + Moralis
 Go to `https://getbootstrap.com/docs/5.1/getting-started/introduction/`  and copy the CDN´s and paste on index.html file
 
 
+# VIA CDN
+
 ```html
 <!doctype html>
 <html lang="en">
@@ -39,11 +41,13 @@ Go to `https://getbootstrap.com/docs/5.1/getting-started/introduction/`  and cop
 
 ```
 
+
+# VIA NPM
 ## Install Moralis
+
+or install moralis using npm
+
 **npm install moralis**
-
-
-import Moralis and environment to angular module file path
 
 
 angular.module.ts
