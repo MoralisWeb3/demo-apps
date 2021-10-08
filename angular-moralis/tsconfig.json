@@ -5,9 +5,7 @@
   To learn more about this file see: https://angular.io/config/solution-tsconfig.
 */
 {
-  "files": [
-    "./global.d.ts"
-  ],
+  "files": [],
   "references": [
     {
       "path": "./tsconfig.app.json"
