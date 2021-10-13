@@ -1,31 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import moralis from "moralis";
+import App from "./App";
+import { MoralisProvider } from "react-moralis";
 
-moralis.initialize(process.env.REACT_APP_MORALIS_APPLICATION_ID);
-moralis.serverURL = process.env.REACT_APP_MORALIS_SERVER_URL;
-
-const initialUser = moralis.User.current();
-
-const App = () => {
-  const [user, setUser] = useState(initialUser);
-  const onLogin = async () => {
-    const user = await moralis.authenticate();
-    setUser(user);
-  };
-  const onLogout = () => {
-    moralis.User.logOut();
-    setUser(null);
-  };
-  if (user) {
-    return <button onClick={onLogout}>Logout</button>;
-  }
-  return <button onClick={onLogin}>Login</button>;
-};
+const APP_ID = "YOUR_APP_ID";
+const SERVER_URL = "https://YOUR_MORALIS_SERVER:1337/server";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
+      <App />
+    </MoralisProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
