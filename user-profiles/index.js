@@ -1,5 +1,6 @@
-Moralis.initialize("FWtPLO0en5imI3ChWwEsGobOrqJTkcUk4KEpP8Ab"); // APP ID
-Moralis.serverURL = "https://yi63fzkqbi8t.moralis.io:2053/server";
+const serverUrl = "INSERT_SERVER_URL"; //Server url from moralis.io
+const appId = "INSERT_APP_ID"; // Application id from moralis.io
+Moralis.start({ serverUrl, appId });
 
 const appHeaderContainer = document.getElementById("app-header-btns");
 const contentContainer = document.getElementById("content");
@@ -13,7 +14,7 @@ async function logOut() {
 async function loginWithMetaMask() {
   let user = Moralis.User.current();
   if (!user) {
-    user = await Moralis.Web3.authenticate();
+    user = await Moralis.authenticate();
   }
   console.log(user);
 
@@ -50,7 +51,7 @@ async function loginWithEmail(isSignUp) {
 }
 
 function listenForAccountChange() {
-  Moralis.Web3.onAccountsChanged(async function (accounts) {
+  Moralis.onAccountsChanged(async function (accounts) {
     console.log("account changed:", accounts);
     const user = Moralis.User.current();
     if (!user || !accounts.length) {
@@ -67,7 +68,7 @@ function listenForAccountChange() {
 
       const confirmed = confirm("Link this address to your account?");
       if (confirmed) {
-        await Moralis.Web3.link(address);
+        await Moralis.link(address);
         alert("Address added!");
         render();
       }
@@ -83,12 +84,7 @@ function listenForAccountChange() {
 }
 
 function addressAlreadyLinked(user, address) {
-  return (
-    user &&
-    address &&
-    user.attributes.accounts &&
-    user.attributes.accounts.includes(address)
-  );
+  return user && address && user.attributes.accounts && user.attributes.accounts.includes(address);
 }
 
 async function onUnlinkAddress(event) {
@@ -102,7 +98,7 @@ async function onUnlinkAddress(event) {
       return;
     }
 
-    await Moralis.Web3.unlink(address);
+    await Moralis.unlink(address);
     alert("Address removed from profile!");
     render();
   } catch (error) {
@@ -124,9 +120,7 @@ function renderHeader() {
 }
 
 function buildLoginComponent(isSignUp = false) {
-  const btnSignUp = isSignUp
-    ? ""
-    : `<button type="button" id="btn-login-email-signup">Sign Up With Email</button>`;
+  const btnSignUp = isSignUp ? "" : `<button type="button" id="btn-login-email-signup">Sign Up With Email</button>`;
 
   return `
     <div class="container login">
@@ -162,10 +156,7 @@ function renderLogin(isSignUp) {
 }
 
 function getAddressTxt(address) {
-  return `${address.substr(0, 4)}...${address.substr(
-    address.length - 4,
-    address.length
-  )}`;
+  return `${address.substr(0, 4)}...${address.substr(address.length - 4, address.length)}`;
 }
 
 function buildProfileComponent(user) {
@@ -174,9 +165,7 @@ function buildProfileComponent(user) {
       <div>
         <div class="form-group">
           <label for="name">Username</label>
-          <input type="text" id="name" value="${
-            user.attributes.username || ""
-          }"/>
+          <input type="text" id="name" value="${user.attributes.username || ""}"/>
         </div>
         <div class="form-group">
           <label for="bio">Bio</label>
@@ -311,7 +300,7 @@ async function onAddAddress() {
     // which is already subscribed to link on change so
     // just connecting Metamask will do what we want
     // (as long as the account is not currently connected)
-    await Moralis.Web3.enable();
+    await Moralis.enableWeb3();
   } catch (error) {
     console.error(error);
     alert("Error while linking new address. See console");

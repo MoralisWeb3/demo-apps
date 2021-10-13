@@ -1,5 +1,6 @@
-Moralis.initialize("TCDv7lnGwNN7RIhlj30wA69dnaamxtsmqcTnm3ch");
-Moralis.serverURL = "https://9c8nrl6lfq8u.moralis.io:2053/server";
+const serverUrl = "INSERT_SERVER_URL"; //Server url from moralis.io
+const appId = "INSERT_APP_ID"; // Application id from moralis.io
+Moralis.start({ serverUrl, appId });
 
 const elemAppHeader = document.getElementById("app-header");
 const elemGroupGasStats = document.getElementById("group-gas-stats");
@@ -17,7 +18,7 @@ async function login() {
   }
 
   try {
-    user = await Moralis.Web3.authenticate();
+    user = await Moralis.authenticate();
     console.log(user);
     render();
   } catch (error) {
@@ -74,10 +75,7 @@ function renderStatCard(container, data) {
 }
 
 function getAddressTxt(address) {
-  return `${address.substr(0, 4)}...${address.substr(
-    address.length - 4,
-    address.length
-  )}`;
+  return `${address.substr(0, 4)}...${address.substr(address.length - 4, address.length)}`;
 }
 
 function toGwei(wei) {
