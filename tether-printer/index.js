@@ -1,5 +1,6 @@
-Moralis.initialize("pEYOtXN94FGHaJ1PzpvBR08K1h5depUBM4n3i2EV"); // APP ID
-Moralis.serverURL = "https://jvl1x2z3dq78.moralis.io:2053/server";
+const serverUrl = "INSERT_SERVER_URL"; //Server url from moralis.io
+const appId = "INSERT_APP_ID"; // Application id from moralis.io
+Moralis.start({ serverUrl, appId });
 
 const elemAppHeader = document.getElementById("app-header-btns");
 const printingContainer = document.getElementById("printings");
@@ -17,7 +18,7 @@ async function login() {
   }
 
   try {
-    user = await Moralis.Web3.authenticate();
+    user = await Moralis.authenticate();
     console.log(user);
     render();
   } catch (error) {
@@ -58,9 +59,10 @@ async function renderPrintings() {
       <div class="card-content">
         <span class="mb">${dateFmt.format(e.block_timestamp)}</span>
         <span class="mb">Printed ${numFmt.format(e.amount)} USDT!</span>
-        <a href="https://etherscan.io/tx/${
-          e.transaction_hash
-        }" target="_blank">${getAddressTxt(e.transaction_hash, 10)}</a>
+        <a href="https://etherscan.io/tx/${e.transaction_hash}" target="_blank">${getAddressTxt(
+      e.transaction_hash,
+      10
+    )}</a>
       </div>
     </div>
     `;
@@ -85,10 +87,7 @@ function refreshHeader() {
 }
 
 function getAddressTxt(address, numChars = 4) {
-  return `${address.substr(0, numChars)}...${address.substr(
-    address.length - numChars,
-    address.length
-  )}`;
+  return `${address.substr(0, numChars)}...${address.substr(address.length - numChars, address.length)}`;
 }
 
 // populate the group stats on page load

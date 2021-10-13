@@ -1,5 +1,7 @@
-Moralis.initialize("3iraX0VnBZ9Z4UPs8avDf1tGi9c1duznFf2ds2Yp"); // APP ID
-Moralis.serverURL = "https://htivlggax9lz.moralis.io:2053/server";
+const serverUrl = "INSERT_SERVER_URL"; //Server url from moralis.io
+const appId = "INSERT_APP_ID"; // Application id from moralis.io
+Moralis.start({ serverUrl, appId });
+
 const web3 = new Moralis.Web3();
 
 let swapQuery;
@@ -71,7 +73,7 @@ function handleSwapQueryEvents(subscription) {
 }
 
 function renderNewSwap(swap) {
- swapContainer.innerHTML = buildSwapHtml(swap) + swapContainer.innerHTML;
+  swapContainer.innerHTML = buildSwapHtml(swap) + swapContainer.innerHTML;
 }
 
 function extractSwapData(data) {
@@ -79,15 +81,16 @@ function extractSwapData(data) {
   // convert units
   // both DAI and wETH have 18 decimals
   // so can treat both values like "wei"
-  return data && data.attributes ? { 
-    ...data.attributes,
-    amount0In: +web3.utils.fromWei(data.attributes.amount0In),
-    amount1In: +web3.utils.fromWei(data.attributes.amount1In),
-    amount0Out: +web3.utils.fromWei(data.attributes.amount0Out),
-    amount1Out: +web3.utils.fromWei(data.attributes.amount1Out),
-  } : null;
+  return data && data.attributes
+    ? {
+        ...data.attributes,
+        amount0In: +web3.utils.fromWei(data.attributes.amount0In),
+        amount1In: +web3.utils.fromWei(data.attributes.amount1In),
+        amount0Out: +web3.utils.fromWei(data.attributes.amount0Out),
+        amount1Out: +web3.utils.fromWei(data.attributes.amount1Out),
+      }
+    : null;
 }
-
 
 function buildSwapHtml(swap) {
   // {
@@ -161,7 +164,7 @@ async function constructStatsQuery() {
 }
 
 function handleStatsUpdate(subscription) {
-  subscription.on("update", function(data) {
+  subscription.on("update", function (data) {
     console.log("stats update:", data);
     renderStats(data);
   });
@@ -199,12 +202,8 @@ async function renderStats(data) {
   `;
 }
 
-
 function getAddressTxt(address, numChars = 4) {
-  return `${address.substr(0, numChars)}...${address.substr(
-    address.length - numChars,
-    address.length
-  )}`;
+  return `${address.substr(0, numChars)}...${address.substr(address.length - numChars, address.length)}`;
 }
 
 // render on page load
