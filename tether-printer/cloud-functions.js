@@ -18,8 +18,7 @@
 // @@@ Paste this code into the Moralis Cloud Functions section on the server @@@
 
 Moralis.Cloud.define("getIssueEvents", async function(request) {
-  const logger = Moralis.Cloud.getLogger();
-  const query = new Parse.Query("IssueEventTether");
+  const query = new Parse.Query("IssueEvent");
   query.select("transaction_hash", "block_timestamp", "amount");
   query.descending("block_timestamp");
   query.limit(10);
@@ -27,7 +26,6 @@ Moralis.Cloud.define("getIssueEvents", async function(request) {
   return results.map(function(result) {
     // amount is an interger so must divide by the number of decimals in Tether (6)
     const amount = result.attributes.amount / 1e6;
-   logger.info(amount);
     return {
       transaction_hash: result.attributes.transaction_hash,
       block_timestamp: result.attributes.block_timestamp,
