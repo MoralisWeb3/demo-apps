@@ -12,7 +12,7 @@
     "core-js": "^3.6.5",
     "dotenv": "^10.0.0",
     "env-var": "^7.0.1",
-    "moralis": "^0.0.65",
+    "moralis": "^0.0.90",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",

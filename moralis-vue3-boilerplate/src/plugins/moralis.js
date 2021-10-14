@@ -1,6 +1,8 @@
-import Moralis from 'moralis'
+import Moralis from "moralis";
 
-Moralis.initialize(process.env.VUE_APP_MORALIS_APP_ID)
-Moralis.serverURL = process.env.VUE_APP_MORALIS_SERVER_URL
+Moralis.start({
+  serverUrl: process.env.VUE_APP_MORALIS_SERVER_URL,
+  appId: process.env.VUE_APP_MORALIS_APP_ID,
+});
 
-export default Moralis
+export default Moralis;
