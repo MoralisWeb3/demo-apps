@@ -1,7 +1,6 @@
-// Application id from moralis.io
-Moralis.initialize('YOUR_APP_ID');
-//Server url from moralis.io
-Moralis.serverURL = 'YOUR_SERVER_URL';
+const serverUrl = "https://xxxxx.grandmoralis.com:2053/server"; //Server url from moralis.io
+const appId = "YOUR_APP_ID"; // Application id from moralis.io
+Moralis.start({ serverUrl, appId });
 
 const authButton = document.getElementById('btn-auth');
 const enableButton = document.getElementById('btn-enable');
