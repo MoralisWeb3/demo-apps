@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col">
+      <div *ngIf="!isLoggedIn">
+        <h3 class="mt-5 mb-5">{{ title }}</h3>
+        <div class="card text-center" style="width: 18rem">
+          <img src="../assets/moralis-logo.png" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <a class="btn btn-outline-primary" (click)="login()">Login with MetaMask</a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <h3 class="mt-5 ml-2">Authenticated area</h3>
+        <div class="card text-dark bg-light mt-5" style="max-width: 18rem">
+          <div class="card-header">Logged</div>
+          <div class="card-body">
+            <h5 class="card-title">CreatedAt</h5>
+            <p class="card-text">{{ createdAt | date: "dd/MM/yyyy" }}</p>
+            <h5 class="card-title">UpdateAt</h5>
+            <p class="card-text">{{ updatedAt | date: "dd/MM/yyyy" }}</p>
+
+            <h5 class="card-title">ETH Address</h5>
+            <p class="card-text">{{ ethAddress }}</p>
+            <hr />
+            <div class="text-center mt-5">
+              <a class="btn btn-outline-primary" (click)="logOut()">Log Out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col">
+   
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
