@@ -7,7 +7,11 @@ ng new moralis-angular-app --create-application --inline-style --inline-template
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4222/`. The app will automatically reload if you change any of the source files.
+
+## Production demo
+
+Run `npm run demo` for a demo server. This will automatically open `http://dev.localhost:5222/` where the production version will be served.
 
 ## Code scaffolding
 

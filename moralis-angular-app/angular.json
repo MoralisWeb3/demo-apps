@@ -81,7 +81,8 @@
               "browserTarget": "moralis-angular-app:build:production"
             },
             "development": {
-              "browserTarget": "moralis-angular-app:build:development"
+              "browserTarget": "moralis-angular-app:build:development",
+              "port": 4222
             }
           },
           "defaultConfiguration": "development"
