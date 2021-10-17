@@ -1,4 +1,20 @@
-# MoralisAngularApp
+# Moralis Angular App
+
+## Configuration
+
+You need to set your **Moralis server properties** in the `env.ts` file.<br>
+
+```
+export const defaultEnv: Env = {
+  ...
+  moralis: {
+    appId: '>> MORALIS APPLICATION ID <<',
+    serverUrl: '<< MORALIS SERVER URL <<'
+  }
+};
+```
+_(Check [Moralis Documentation](https://docs.moralis.io/moralis-server/getting-started/create-a-moralis-server) how to create a Moralis server here)_
+## Scaffolding
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.10 with the following command:
 ```
@@ -12,23 +28,3 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4222/`. The app w
 ## Production demo
 
 Run `npm run demo` for a demo server. This will automatically open `http://dev.localhost:5222/` where the production version will be served.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
