@@ -1,4 +1,8 @@
 # Moralis Angular App
+## Features
+
+1. **Login** with [Metamask](https://metamask.io/) / [WalletConnect](https://walletconnect.com/)
+1. **Logout**
 
 ## Configuration
 
@@ -8,8 +12,8 @@ You need to set your **Moralis server properties** in the `env.ts` file.<br>
 export const defaultEnv: Env = {
   ...
   moralis: {
-    appId: '>> MORALIS APPLICATION ID <<',
-    serverUrl: '<< MORALIS SERVER URL <<'
+    appId: 'MORALIS_APPLICATION_ID',
+    serverUrl: 'MORALIS_SERVER_URL'
   }
 };
 ```
