@@ -17,8 +17,8 @@ const { scheme } = expo;
 /**
  * Initialization of Moralis
  */
-const appId = "XbJwVDaAb6PmtJwqB71j9KD0bW2Wv1Go1CNBmXv2";
-const serverUrl = "https://pam4gp2widew.moralis.io:2053/server";
+const appId = "INSERT_APP_ID"; // Application id from moralis.io
+const serverUrl = "INSERT_SERVER_URL"; //Server url from moralis.io
 const environment = "native";
 // Initialize Moralis with AsyncStorage to support react-native storage
 Moralis.setAsyncStorage(AsyncStorage);
