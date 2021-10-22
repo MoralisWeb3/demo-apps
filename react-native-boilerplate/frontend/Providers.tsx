@@ -24,7 +24,7 @@ const environment = "native";
 Moralis.setAsyncStorage(AsyncStorage);
 // Replace the enable function to use the react-native WalletConnect
 // @ts-ignore
-Moralis.enable = enableViaWalletConnect;
+Moralis.setEnableWeb3(enableViaWalletConnect)
 
 const walletConnectOptions: WalletConnectProviderProps = {
   redirectUrl: Platform.OS === "web" ? window.location.origin : `${scheme}://`,
