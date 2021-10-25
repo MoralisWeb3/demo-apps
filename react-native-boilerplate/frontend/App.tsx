@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useMoralis, useMoralisWeb3Api, useMoralisWeb3ApiCall } from "react-moralis";
 import { useWalletConnect } from "./WalletConnect";
-import Moralis from "moralis/types";
 
 const styles = StyleSheet.create({
   center: { alignItems: "center", justifyContent: "center" },

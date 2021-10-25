@@ -9,12 +9,12 @@
     "expo-splash-screen": "~0.11.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.8.1",
-    "moralis": "0.0.99",
+    "moralis": "^0.0.104",
     "node-libs-browser": "2.2.1",
     "path-browserify": "0.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-moralis": "0.2.7",
+    "react-moralis": "0.2.8",
     "react-native": "~0.63.4",
     "react-native-crypto": "2.2.0",
     "react-native-dotenv": "2.4.3",
@@ -57,9 +57,7 @@
     "ethereum-waffle": "^3.2.1",
     "gh-pages": "^3.2.3",
     "hardhat": "2.0.6",
-    "husky": "4.3.8",
     "jest": "26.6.3",
-    "lint-staged": "10.5.3",
     "platform-detect": "3.0.1",
     "prettier": "2.2.1",
     "react-test-renderer": "17.0.1",
@@ -113,15 +111,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "husky": {
-    "hooks": {
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook",
-      "pre-commit": "lint-staged",
-      "pre-push": "test"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": "eslint --fix --ext '.ts,.tsx,.js,.jsx' -c .eslintrc.json"
   }
 }
