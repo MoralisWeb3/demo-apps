@@ -43,8 +43,8 @@ function renderApp() {
 
 async function authenticate() {
   try {
-    user = await Moralis.Web3.authenticate({ provider });
-    web3 = await Moralis.Web3.enable({ provider });
+    user = await Moralis.authenticate({ provider });
+    web3 = await Moralis.enableWeb3({ provider });
   } catch (error) {
     console.log('authenticate failed', error);
   }
@@ -72,7 +72,7 @@ async function testCall() {
 
 async function enableWeb3() {
   try {
-    web3 = await Moralis.Web3.enable({ provider });
+    web3 = await Moralis.enableWeb3({ provider });
   } catch (error) {
     console.log('testCall failed', error);
   }
