@@ -11,8 +11,9 @@ the APP ID and URL by pressing the "View Details" button. Fill in your values in
 at the top of `index.js`:
 
 ```javascript
-Moralis.initialize("YOUR APP ID");
-Moralis.serverURL = "YOUR SERVER URL";
+const serverUrl = "https://q11hdeawkarz.usemoralis.com:2053/server";
+const appId = "zbBnfQwsFEgerT34yVOJAnPJzl5tgIBG7I86qSpi";
+Moralis.start({ serverUrl, appId });
 ```
 
 ## RealTime Event Plugin Setup
