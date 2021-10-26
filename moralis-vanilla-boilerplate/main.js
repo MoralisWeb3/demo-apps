@@ -7,14 +7,13 @@ Moralis.start({ serverUrl, appId });
 async function login() {
   let user = Moralis.User.current();
   if (!user) {
-    user = await Moralis.authenticate({ signingMessage: "Hello World!" })
-      .then(function (user) {
-        console.log("logged in user:", user);
-        console.log(user.get("ethAddress"));
-      })
-      .catch(function (error) {
-        console(error);
-      });
+   try {
+      user = await Moralis.authenticate({ signingMessage: "Hello World!" })
+      console.log(user)
+      console.log(user.get('ethAddress'))
+   } catch(error) {
+     console.log(error)
+   }
   }
 }
 
