@@ -11,8 +11,8 @@ the APP ID and URL by pressing the "View Details" button. Fill in your values in
 at the top of `index.js`:
 
 ```javascript
-const serverUrl = "https://q11hdeawkarz.usemoralis.com:2053/server";
-const appId = "zbBnfQwsFEgerT34yVOJAnPJzl5tgIBG7I86qSpi";
+const serverUrl = "YOUR_SERVER_URL";
+const appId = "YOUR_APP_ID";
 Moralis.start({ serverUrl, appId });
 ```
 
