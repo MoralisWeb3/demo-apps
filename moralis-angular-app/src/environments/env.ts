@@ -5,7 +5,7 @@ export interface Env {
   moralis: {
     /** Moralis Application ID */
     appId: string;
-    /** Moralis Server url */
+    /** Moralis Server URL */
     serverUrl: string;
   };
 }
