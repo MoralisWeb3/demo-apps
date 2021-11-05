@@ -1,5 +1,5 @@
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-import "../node_modules/@openzeppelin/contracts/math/SafeMath.sol";
+import "../node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 pragma solidity ^0.8.9;
 
