@@ -1,5 +1,5 @@
 import { NavigationGuardNext } from "vue-router";
-import MoralisConfig from "../config/moralis";
+import { MoralisConfig } from "../config/moralis";
 import { userModule } from "../store/user";
 
 const CheckLogin = async () => {

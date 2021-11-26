@@ -3,10 +3,14 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
-
-@Options({})
-export default class ProtectedPages extends Vue {}
+import { defineComponent } from "vue";
+export default defineComponent({
+  data() {
+    return {
+      message: "Hello from ProtectedPages",
+    };
+  },
+});
 </script>
 
 <style scoped></style>

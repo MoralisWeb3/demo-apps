@@ -1,4 +1,5 @@
 import * as Moralis from "moralis";
+import Web3 from "web3";
 import { AppConfig } from ".";
 
 Moralis.start({
@@ -7,5 +8,14 @@ Moralis.start({
 });
 
 const MoralisConfig = Moralis;
+const web3 = new Web3();
 
-export default MoralisConfig;
+export default {
+  install: (app: any) => {
+    app.provide("moralis", MoralisConfig);
+    app.provide("web3", web3);
+    app.config.globalProperties.$moralis = MoralisConfig;
+    app.config.globalProperties.$web3 = web3;
+  },
+};
+export { MoralisConfig };

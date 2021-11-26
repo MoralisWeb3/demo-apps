@@ -9,23 +9,30 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { defineComponent, inject } from "@vue/runtime-core";
+import Moralis from "moralis/types";
+import { useRouter } from "vue-router";
 import { UserModel } from "../models/User";
 import { userModule } from "../store/user";
 
-@Options({})
-export default class Login extends Vue {
-  async metamaskLogin(): Promise<void> {
-    try {
-      const user: UserModel = await this.$moralis.Web3.authenticate();
-      userModule.SET_USER(user);
-      console.log(user);
-      this.$router.push({ name: "Home" });
-    } catch (error) {
-      console.log({ error });
+export default defineComponent({
+  setup() {
+    const $moralis = inject("moralis") as Moralis;
+    const router = useRouter();
+    async function metamaskLogin(): Promise<void> {
+      try {
+        const user: UserModel = await $moralis.Web3.authenticate();
+        userModule.SET_USER(user);
+        router.push({ name: "Home" });
+      } catch (error) {
+        console.log({ error });
+      }
     }
-  }
-}
+    return {
+      metamaskLogin,
+    };
+  },
+});
 </script>
 
 <style scoped></style>
