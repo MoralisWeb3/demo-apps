@@ -1,3 +1,4 @@
+import { App } from "vue";
 import * as Moralis from "moralis";
 import Web3 from "web3";
 import { AppConfig } from ".";
@@ -11,7 +12,7 @@ const MoralisConfig = Moralis;
 const web3 = new Web3();
 
 export default {
-  install: (app: any) => {
+  install: (app: App): void => {
     app.provide("moralis", MoralisConfig);
     app.provide("web3", web3);
     app.config.globalProperties.$moralis = MoralisConfig;
