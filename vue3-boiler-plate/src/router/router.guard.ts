@@ -1,18 +1,18 @@
 import { UserModel } from "./../models/User";
-import { NavigationGuardNext } from "vue-router";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import { MoralisObject } from "../config/moralis";
-import { userModule } from "../store/user";
+import store from "../store/index";
 
 const CheckLogin = async () => {
   const user: UserModel = await MoralisObject.User.current();
   if (!user) throw new Error("Unauthorized");
-  userModule.SET_USER(user);
+  store.commit("user/setUser", user);
 };
 
 export default class RouterGuard {
   static async App(
-    _: unknown,
-    __: unknown,
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): Promise<void> {
     try {
@@ -24,8 +24,8 @@ export default class RouterGuard {
   }
 
   static async Login(
-    _: unknown,
-    __: unknown,
+    to: RouteLocationNormalized,
+    from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): Promise<void> {
     try {

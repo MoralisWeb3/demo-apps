@@ -13,10 +13,11 @@ import { defineComponent, inject } from "@vue/runtime-core";
 import Moralis from "../moralis";
 import { useRouter } from "vue-router";
 import { UserModel } from "../models/User";
-import { userModule } from "../store/user";
+import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
+    const store = useStore();
     const $moralis = inject("moralis") as Moralis;
     console.log({ $moralis });
     const router = useRouter();
@@ -27,7 +28,7 @@ export default defineComponent({
         })) as UserModel;
         console.log(user.get("ethAddress"));
         router.push({ name: "Home" });
-        userModule.SET_USER(user);
+        store.commit("user/setUser", user);
       } catch (error) {
         console.log({ error });
       }
