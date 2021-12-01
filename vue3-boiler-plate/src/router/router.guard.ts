@@ -6,7 +6,7 @@ import store from "../store/index";
 const CheckLogin = async () => {
   const user: UserModel = await MoralisObject.User.current();
   if (!user) throw new Error("Unauthorized");
-  store.commit("user/setUser", user);
+  store.commit("User/setUser", user);
 };
 
 export default class RouterGuard {

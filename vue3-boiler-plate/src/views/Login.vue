@@ -19,7 +19,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const $moralis = inject("moralis") as Moralis;
-    console.log({ $moralis });
     const router = useRouter();
     async function metamaskLogin(): Promise<void> {
       try {
@@ -27,8 +26,9 @@ export default defineComponent({
           signingMessage: "Testing async",
         })) as UserModel;
         console.log(user.get("ethAddress"));
+        store.commit("User/setUser", user);
         router.push({ name: "Home" });
-        store.commit("user/setUser", user);
+        console.log(store.state.User.user);
       } catch (error) {
         console.log({ error });
       }
