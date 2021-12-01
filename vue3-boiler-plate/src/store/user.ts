@@ -1,3 +1,4 @@
+import { UserModel } from "../models/User";
 import {
   Module,
   VuexModule,
@@ -5,7 +6,6 @@ import {
   getModule,
 } from "vuex-module-decorators";
 import store from ".";
-import { UserModel } from "../models/User";
 
 @Module({ dynamic: true, store: store, namespaced: true, name: "User" })
 export class UserModule extends VuexModule {

@@ -1,9 +1,10 @@
+import { UserModel } from "./../models/User";
 import { NavigationGuardNext } from "vue-router";
-import { MoralisConfig } from "../config/moralis";
+import { MoralisObject } from "../config/moralis";
 import { userModule } from "../store/user";
 
 const CheckLogin = async () => {
-  const user = await MoralisConfig.User.current();
+  const user: UserModel = await MoralisObject.User.current();
   if (!user) throw new Error("Unauthorized");
   userModule.SET_USER(user);
 };

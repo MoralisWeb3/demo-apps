@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, inject } from "@vue/runtime-core";
-import Moralis from "moralis/types";
+import Moralis from "../moralis";
 import { useRouter } from "vue-router";
 import { UserModel } from "../models/User";
 import { userModule } from "../store/user";
@@ -18,12 +18,16 @@ import { userModule } from "../store/user";
 export default defineComponent({
   setup() {
     const $moralis = inject("moralis") as Moralis;
+    console.log({ $moralis });
     const router = useRouter();
     async function metamaskLogin(): Promise<void> {
       try {
-        const user: UserModel = await $moralis.Web3.authenticate();
-        userModule.SET_USER(user);
+        const user = (await $moralis.Web3.authenticate({
+          signingMessage: "Testing async",
+        })) as UserModel;
+        console.log(user.get("ethAddress"));
         router.push({ name: "Home" });
+        userModule.SET_USER(user);
       } catch (error) {
         console.log({ error });
       }
