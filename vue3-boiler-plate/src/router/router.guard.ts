@@ -10,7 +10,7 @@ const CheckLogin = async () => {
 };
 
 export default class RouterGuard {
-  static async App(
+  static async Login(
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
     next: NavigationGuardNext
@@ -19,18 +19,22 @@ export default class RouterGuard {
       await CheckLogin();
       next();
     } catch (error) {
-      next("/login");
+      const redirectLocation =
+        "/login" + to.fullPath == "/dashboard"
+          ? ""
+          : "?redirect=" + to.fullPath;
+      next(redirectLocation);
     }
   }
 
-  static async Login(
+  static async Continue(
     to: RouteLocationNormalized,
     from: RouteLocationNormalized,
     next: NavigationGuardNext
   ): Promise<void> {
     try {
       await CheckLogin();
-      next("/");
+      next();
     } catch (error) {
       next();
     }

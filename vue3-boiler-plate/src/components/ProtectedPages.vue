@@ -1,4 +1,8 @@
 <template>
+    <button class="btn btn-danger float-end" @click.prevent="logout">
+      Logout
+    </button>
+  <div>{{ message }}</div>
   <router-view />
 </template>
 
@@ -9,6 +13,12 @@ export default defineComponent({
     return {
       message: "Hello from ProtectedPages",
     };
+  },
+  methods: {
+    async logout(): Promise<void> {
+      await this.$moralis.User.logOut();
+      this.$router.push({ name: "Login" });
+    },
   },
 });
 </script>

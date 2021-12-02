@@ -1,7 +1,12 @@
 <template>
   <div class="container p-3">
-    <h1>Hello World</h1>
-    <p>This is the home page</p>
+    <div>
+      <h3>Profile Page</h3>
+      address: {{ user.attributes.ethAddress }}
+      <pre>
+      {{ user.attributes }}
+      </pre>
+    </div>
   </div>
 </template>
 
@@ -10,7 +15,7 @@ import { defineComponent } from "@vue/runtime-core";
 import { useStore } from "vuex";
 
 export default defineComponent({
-
+  name: "Dashboard",
   setup() {
     const store = useStore();
     return {
