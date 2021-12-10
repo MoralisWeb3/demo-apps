@@ -1,0 +1,74 @@
+<app-login></app-login>
+
+<div *ngIf="isLoggedIn">
+    <div style="text-align: center;">
+        <input style="width: 100px;display: inline;" class="form-control" type="number" [(ngModel)]="amount">
+        <button style="margin-left: 10px;" class="btn btn-primary" (click)="flip('heads')">Play Heads</button>
+        <button style="margin-left: 10px;" class="btn btn-primary" (click)="flip('tails')">Play Tails</button>
+    </div>
+    <br><br>
+
+    <div class="row" id="statistics">
+        <div class="col-md-6">
+            <h3>Top Winners</h3>
+            <table class="table" id="top_winners">
+                <thead>
+                    <tr>
+                        <th scope="column">Address</th>
+                        <th scope="column">Total wei won</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of biggestWiners">
+                        <th scope="row">{{item.objectId}}</th>
+                        <td>{{item.total_sum}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-md-6">
+            <h3>Top Losers</h3>
+            <table class="table" id="top_losers">
+                <thead>
+                    <tr>
+                        <th scope="column">Address</th>
+                        <th scope="column">Total wei lost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of biggestLosers">
+                        <th scope="row">{{item.objectId}}</th>
+                        <td>{{item.total_sum}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Biggest bets placed</h3>
+            <table class="table" id="biggest_bets">
+                <thead>
+                    <tr>
+                        <th scope="column">Address</th>
+                        <th scope="column">Bet Size (wei)</th>
+                        <th scope="column">Win/Loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of biggestBets">
+                        <th scope="row">{{item.user}}</th>
+                        <td>{{item.bet}}</td>
+                        <td>{{item.win}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
