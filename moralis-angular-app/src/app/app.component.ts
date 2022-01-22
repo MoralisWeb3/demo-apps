@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { Moralis } from 'moralis';
 import { environment } from 'src/environments/environment';
 import { User } from './user.component';
@@ -13,23 +18,25 @@ export class AppComponent implements OnInit {
 
   user?: User;
 
-  constructor(private cdr: ChangeDetectorRef){}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     Moralis.start({
       appId: environment.moralis.appId,
       serverUrl: environment.moralis.serverUrl,
     })
-      .then(() => console.info('Moralis has been initialised.'))
+      .then(() => console.info('Moralis has been initialized.'))
       .finally(() => this.setLoggedInUser(Moralis.User.current()));
   }
 
   login(provider: 'metamask' | 'walletconnect' = 'metamask') {
+    const signingMessage = 'Moralis Angular App';
     (provider === 'metamask'
-      ? Moralis.Web3.authenticate()
-      : Moralis.Web3.authenticate({ provider }))
-          .then((loggedInUser) => this.setLoggedInUser(loggedInUser))
-          .catch((e) => console.error(`Moralis '${provider}' login error:`, e));
+      ? Moralis.Web3.authenticate({ signingMessage })
+      : Moralis.Web3.authenticate({ signingMessage, provider })
+    )
+      .then((loggedInUser) => this.setLoggedInUser(loggedInUser))
+      .catch((e) => console.error(`Moralis '${provider}' login error:`, e));
   }
 
   logout() {
@@ -44,7 +51,7 @@ export class AppComponent implements OnInit {
 
   private setLoggedInUser(loggedInUser?: User) {
     this.user = loggedInUser;
-    console.info('Loggedin user:', loggedInUser);
+    console.info('Logged in user:', loggedInUser);
     /**
      * Manual detect changes due to OnPush change detection.
      * This can be eliminated if you use async pipe and Observables

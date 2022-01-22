@@ -24,7 +24,7 @@
     "assert": "2.0.0",
     "crypto-browserify": "3.12.0",
     "https-browserify": "1.0.0",
-    "moralis": "0.0.98",
+    "moralis": "0.0.183",
     "os-browserify": "0.3.0",
     "rxjs": "7.4.0",
     "stream-browserify": "3.0.0",
