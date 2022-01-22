@@ -21,10 +21,8 @@ export class AppComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    Moralis.start({
-      appId: environment.moralis.appId,
-      serverUrl: environment.moralis.serverUrl,
-    })
+    const { appId, serverUrl } = environment.moralis;
+    Moralis.start({ appId, serverUrl })
       .then(() => console.info('Moralis has been initialized.'))
       .finally(() => this.setLoggedInUser(Moralis.User.current()));
   }
@@ -32,8 +30,8 @@ export class AppComponent implements OnInit {
   login(provider: 'metamask' | 'walletconnect' = 'metamask') {
     const signingMessage = 'Moralis Angular App';
     (provider === 'metamask'
-      ? Moralis.Web3.authenticate({ signingMessage })
-      : Moralis.Web3.authenticate({ signingMessage, provider })
+      ? Moralis.authenticate({ signingMessage })
+      : Moralis.authenticate({ signingMessage, provider })
     )
       .then((loggedInUser) => this.setLoggedInUser(loggedInUser))
       .catch((e) => console.error(`Moralis '${provider}' login error:`, e));
