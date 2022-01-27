@@ -25,7 +25,6 @@
   import { Buffer } from 'buffer';
   
   (window as any).global = window;
-  import { Buffer } from 'buffer';
   global.Buffer = Buffer;
   global.process = {
       env: { DEBUG: undefined },
