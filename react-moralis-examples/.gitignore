@@ -1,9 +1,0 @@
-.DS_Store
-.idea/*
-coverage
-*.log
-yarn-error.log
-.env
-tsconfig.tsbuildinfo
-node_modules
-build
