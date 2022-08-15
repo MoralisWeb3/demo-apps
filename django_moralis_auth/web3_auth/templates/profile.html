@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moralis Auth Django Profile Page Demo</title>
+</head>
+<body>
+    <div>
+
+    {% if user.is_authenticated %}
+        <h1>Eth address: {{ user.username }}</h1>
+        <h3>Session auth info</h3>
+        <table width="200px" border="0px" padding="5px">
+        {% for key,value in request.session.auth_info.items %}
+            <tr><td>{{key}}</td><td><pre>{{ value }}</pre></td></tr>
+        {% endfor %}
+        </table>
+        <table width="200px" border="0px" padding="0px">
+        <h3>Verified user info</h3>
+        {% for key,value in request.session.verified_data.items %}
+            <tr><td>{{key}}</td><td>{{ value }}</td></tr>
+        {% endfor %}
+
+        </table>
+        <br/>
+        <a href="{% url 'logout' %}?next={% url 'moralis_auth' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'moralis_auth' %}"> Login page </a>
+    {% endif %}
+    </div>
+
+</body>
+</html>
+
