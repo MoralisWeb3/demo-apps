@@ -1,0 +1,44 @@
+{
+  "name": "@panva/hkdf",
+  "version": "1.0.2",
+  "description": "HKDF with no dependencies using runtime's native crypto",
+  "keywords": [
+    "browser",
+    "cloudflare",
+    "deno",
+    "electron",
+    "hkdf",
+    "isomorphic",
+    "rfc5869",
+    "RFC 5869",
+    "universal",
+    "webcrypto",
+    "workers"
+  ],
+  "homepage": "https://github.com/panva/hkdf",
+  "repository": "panva/hkdf",
+  "funding": {
+    "url": "https://github.com/sponsors/panva"
+  },
+  "license": "MIT",
+  "author": "Filip Skokan <panva.ip@gmail.com>",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "browser": "./dist/web/index.js",
+      "import": "./dist/node/esm/index.js",
+      "require": "./dist/node/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/node/cjs/index.js",
+  "browser": "./dist/web/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/**/package.json",
+    "dist/**/*.js",
+    "dist/types/**/*.d.ts",
+    "!dist/types/runtime/*"
+  ]
+}
