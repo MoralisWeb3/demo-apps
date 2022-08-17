@@ -1,4 +1,4 @@
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { signIn } from 'next-auth/react';
 import { useAccount, useConnect, useSignMessage, useDisconnect } from 'wagmi';
 import { useRouter } from 'next/router';
@@ -16,7 +16,7 @@ function SignIn() {
             await disconnectAsync();
         }
 
-        const { account, chain } = await connectAsync({ connector: new InjectedConnector() });
+        const { account, chain } = await connectAsync({ connector: new MetaMaskConnector() });
 
         const userData = { address: account, chain: chain.id, network: 'evm' };
 
