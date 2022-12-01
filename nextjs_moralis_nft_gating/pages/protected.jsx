@@ -23,7 +23,9 @@ export async function getServerSideProps(context) {
         };
     }
 
-    await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
+    if (!Moralis.Core.isStarted) {
+        await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
+    }
 
     const nftList = await Moralis.EvmApi.account.getNFTsForContract({
         address: session.user.address,
