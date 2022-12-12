@@ -9,8 +9,8 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@moralisweb3/next": "^2.8.0",
-        "moralis": "^2.8.0",
+        "@moralisweb3/next": "^2.9.0",
+        "moralis": "^2.9.0",
         "next": "^12.2.4",
         "next-auth": "^4.10.3",
         "react": "^18.2.0",
