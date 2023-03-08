@@ -28,7 +28,6 @@ def request_message(request):
     present_plus_one_m = present + timedelta(minutes=1)
     expirationTime = str(present_plus_one_m.isoformat())
     expirationTime = str(expirationTime[:-6]) + 'Z'
-    print(f'ExpirationTime = {expirationTime}')
     
     REQUEST_URL = 'https://authapi.moralis.io/challenge/request/evm'
     request_object = {
