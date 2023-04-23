@@ -1,13 +1,15 @@
-import { createClient, configureChains, defaultChains, WagmiConfig } from 'wagmi';
+import { createClient, configureChains, WagmiConfig } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
+// Supported chains: https://wagmi.sh/react/chains#supported-chains
+import { mainnet, goerli } from 'wagmi/chains';
 import { SessionProvider } from 'next-auth/react';
 
-const { provider, webSocketProvider } = configureChains(defaultChains, [publicProvider()]);
+const { provider, webSocketProvider } = configureChains([mainnet, goerli], [publicProvider()]);
 
 const client = createClient({
-    provider,
-    webSocketProvider,
     autoConnect: true,
+    provider,
+    webSocketProvider
 });
 
 function MyApp({ Component, pageProps }) {
