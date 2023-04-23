@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-md-10"></div>
+    <div class="col-md-2">
+        <div *ngIf="!isLoggedIn">
+            <a class="btn btn-outline-primary" (click)="logIn()">Login with MetaMask</a>
+        </div>
+        <div *ngIf="isLoggedIn">
+            <a class="btn btn-outline-primary" (click)="logOut()">Log Out</a>
+        </div>
+
+    </div>
+</div>
