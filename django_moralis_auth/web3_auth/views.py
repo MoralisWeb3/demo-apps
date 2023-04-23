@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta, timezone 
 
 API_KEY = 'WEB3_API_KEY_HERE'
 if API_KEY == 'WEB3_API_KEY_HERE':
@@ -22,6 +23,12 @@ def request_message(request):
     data = json.loads(request.body)
     print(data)
 
+    #setting request expiration time to 1 minute after the present->
+    present = datetime.now(timezone.utc)
+    present_plus_one_m = present + timedelta(minutes=1)
+    expirationTime = str(present_plus_one_m.isoformat())
+    expirationTime = str(expirationTime[:-6]) + 'Z'
+    
     REQUEST_URL = 'https://authapi.moralis.io/challenge/request/evm'
     request_object = {
       "domain": "defi.finance",
@@ -29,7 +36,7 @@ def request_message(request):
       "address": data['address'],
       "statement": "Please confirm",
       "uri": "https://defi.finance/",
-      "expirationTime": "2023-01-01T00:00:00.000Z",
+      "expirationTime": expirationTime,
       "notBefore": "2020-01-01T00:00:00.000Z",
       "timeout": 15
     }
